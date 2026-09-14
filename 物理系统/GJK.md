@@ -203,21 +203,11 @@ GJK 的精妙之处就在这里：
 # 4. Support Mapping
 
 假设有一个凸体：
-
-```
-          *
-       *     *
-     *         *
-    *           *
-     *         *
-       *     *
-          *
-```
-
+![[Pasted image 20260915005959.png]]
 现在给一个方向：
 
 $$
-\[ d \]
+d
 $$
 
 例如：
@@ -239,13 +229,13 @@ $$
 数学上就是：
 
 $$
-\[ Support(A,d) = \arg\max_{a\in A}(a\cdot d) \]
+Support(A,d) = \arg\max_{a\in A}(a\cdot d)
 $$
 
 因为点积：
 
 $$
-\[ a\cdot d \]
+a\cdot d
 $$
 
 越大，说明点在 \(d\) 方向投影得越远。
@@ -259,19 +249,19 @@ $$
 我们需要：
 
 $$
-\[ Support(A-B,d) \]
+Support(A-B,d)
 $$
 
 根据：
 
 $$
-\[ A-B=A+(-B) \]
+A-B=A+(-B)
 $$
 
 可以推导：
 
 $$
-\[ \boxed{ Support(A-B,d) = Support(A,d)-Support(B,-d) } \]
+\boxed{ Support(A-B,d) = Support(A,d)-Support(B,-d) }
 $$
 
 所以根本不用生成 \(A-B\)。
@@ -318,31 +308,31 @@ GJK 核心算法完全不用改。
 一个 OBB 有：
 
 $$
-\[ Center=C \]
+Center=C
 $$
 
 三个局部轴：
 
 $$
-\[ u_0,u_1,u_2 \]
+u_0,u_1,u_2
 $$
 
 半尺寸：
 
 $$
-\[ e_0,e_1,e_2 \]
+e_0,e_1,e_2
 $$
 
 对于方向：
 
 $$
-\[ d \]
+d
 $$
 
 support point 就是：
 
 $$
-\[ C+ sign(d\cdot u_0)e_0u_0+ sign(d\cdot u_1)e_1u_1+ sign(d\cdot u_2)e_2u_2 \]
+C+ sign(d\cdot u_0)e_0u_0+ sign(d\cdot u_1)e_1u_1+ sign(d\cdot u_2)e_2u_2
 $$
 
 直观理解非常简单。
@@ -397,7 +387,7 @@ Support(d) 是谁？
 GJK 会逐渐构造一个小的几何体：
 
 $$
-\[ Simplex \]
+Simplex
 $$
 
 中文通常叫：
@@ -407,7 +397,7 @@ $$
 在不同维度：
 
 $$
-\[ 0D:\ 点 \]\[ 1D:\ 线段 \]\[ 2D:\ 三角形 \]\[ 3D:\ 四面体 \]
+0D:\ 点; 1D:\ 线段 ; 2D:\ 三角形 ; 3D:\ 四面体
 $$
 
 所以 3D GJK 最多只需要：
@@ -423,7 +413,7 @@ $$
 所以：
 
 $$
-\[ \boxed{ 3D碰撞判断最终只需要判断 原点是否能被某个四面体包围 } \]
+\boxed{ 3D碰撞判断最终只需要判断 原点是否能被某个四面体包围 }
 $$
 
 ---
@@ -451,7 +441,7 @@ d = B.Center - A.Center;
 然后求：
 
 $$
-\[ A=Support(d) \]
+A=Support(d)
 $$
 
 注意这里为了避免名字冲突，后面 Simplex 中通常把最新 support point 叫 `A`。
@@ -459,7 +449,7 @@ $$
 接下来：
 
 $$
-\[ d=-A \]
+d=-A
 $$
 
 因为：
@@ -476,19 +466,19 @@ A ●------------------● O
 然后再次：
 
 $$
-\[ A=Support(d) \]
+A=Support(d)
 $$
 
 这里出现 GJK 极其重要的判断：
 
 $$
-\[ A\cdot d < 0 \]
+A\cdot d < 0
 $$
 
 则：
 
 $$
-\[ \boxed{没有碰撞} \]
+\boxed{没有碰撞}
 $$
 
 为什么？
@@ -499,16 +489,7 @@ $$
 
 假设：
 
-```
-            d →
-
-      Minkowski Difference
-
-      /-------\
-     /         \
-    /           \
----A-------------|-----------O
-```
+![[Pasted image 20260915010533.png]]
 
 我们正在朝原点方向 \(d\) 找整个 Minkowski Difference 最远的点。
 
@@ -517,7 +498,7 @@ $$
 也就是：
 
 $$
-\[ A\cdot d<0 \]
+A\cdot d<0
 $$
 
 那么整个 Minkowski Difference 都在：
@@ -530,14 +511,7 @@ $$
 
 于是存在一个平面：
 
-```
-Minkowski
-Difference      |        O
-                |
-****************|        
-****************|
-****************|
-```
+![[Pasted image 20260915010738.png]]
 
 把 Minkowski Difference 和原点分开。
 
@@ -546,7 +520,7 @@ Difference      |        O
 也就是：
 
 $$
-\[ A\cap B=\emptyset \]
+A\cap B=\emptyset
 $$
 
 注意工程实现里通常要考虑 epsilon，因此不会简单机械使用完全精确的浮点：
@@ -564,7 +538,7 @@ if (dot < epsilon)
 假设：
 
 $$
-\[ A\cdot d>0 \]
+A\cdot d>0
 $$
 
 说明：
@@ -589,7 +563,9 @@ simplex.Add(A);
 
 然后产生一个新的：
 
-\[ d \]
+$$
+d
+$$
 
 再继续：
 
@@ -631,7 +607,9 @@ support 无法越过原点
 
 假设最新加入的点永远叫：
 
-\[ A \]
+$$
+A
+$$
 
 ---
 
@@ -648,19 +626,19 @@ A ●
 方向很简单：
 
 $$
-\[ d=AO \]
+d=AO
 $$
 
 由于：
 
 $$
-\[ O=0 \]
+O=0
 $$
 
 所以：
 
 $$
-\[ AO=-A \]
+AO=-A
 $$
 
 于是：
@@ -686,13 +664,13 @@ B ●-------------● A
 定义：
 
 $$
-\[ AO=O-A=-A \]\[ AB=B-A \]
+AO=O-A=-A ][ AB=B-A
 $$
 
 首先判断原点是否位于 AB 方向：
 
 $$
-\[ AB\cdot AO>0 \]
+AB\cdot AO>0
 $$
 
 情况一：
@@ -731,7 +709,7 @@ B ●-------------● A
 3D GJK 中通常用 Triple Cross：
 
 $$
-\[ d=(AB\times AO)\times AB \]
+d=(AB\times AO)\times AB
 $$
 
 也就是：
@@ -751,7 +729,7 @@ Cross(Cross(AB, AO), AB)
 利用向量三重积：
 
 $$
-\[ (A\times B)\times C \]
+(A\times B)\times C
 $$
 
 可以展开。
@@ -759,19 +737,19 @@ $$
 对于：
 
 $$
-\[ (AB\times AO)\times AB \]
+(AB\times AO)\times AB
 $$
 
 结果一定垂直于：
 
 $$
-\[ AB \]
+AB
 $$
 
 同时它位于：
 
 $$
-\[ AB,AO \]
+AB,AO
 $$
 
 构成的平面里。
@@ -836,7 +814,7 @@ A
 然后：
 
 $$
-\[ d=AO \]
+d=AO
 $$
 
 也就是：
@@ -861,13 +839,13 @@ direction = AO;
 最新点是：
 
 $$
-\[ A \]
+A
 $$
 
 另外两个点：
 
 $$
-\[ B,C \]
+B,C
 $$
 
 ```
