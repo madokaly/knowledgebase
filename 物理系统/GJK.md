@@ -203,7 +203,8 @@ GJK 的精妙之处就在这里：
 # 4. Support Mapping
 
 假设有一个凸体：
-![[Pasted image 20260915005959.png]]
+<img width="1024" height="952" alt="image" src="https://github.com/user-attachments/assets/6f6ca99e-1334-4365-9180-b65c52ccace0" />
+
 现在给一个方向：
 
 $$
@@ -489,7 +490,8 @@ $$
 
 假设：
 
-![[Pasted image 20260915010533.png]]
+<img width="1024" height="301" alt="image" src="https://github.com/user-attachments/assets/040e1ec8-251e-4e9a-8e2d-acfe0ddb18e2" />
+
 
 我们正在朝原点方向 \(d\) 找整个 Minkowski Difference 最远的点。
 
@@ -511,7 +513,8 @@ $$
 
 于是存在一个平面：
 
-![[Pasted image 20260915010738.png]]
+<img width="1024" height="271" alt="image" src="https://github.com/user-attachments/assets/256a3220-33a3-4191-bf52-05ef5adfaf02" />
+
 
 把 Minkowski Difference 和原点分开。
 
