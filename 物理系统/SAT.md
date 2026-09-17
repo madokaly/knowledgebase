@@ -1569,7 +1569,6 @@ Axis.Normalize();
 # 31. 最值得你牢牢记住的几个公式
 
 SAT 实际上最核心就三个。
-
 ## 点到轴上的投影
 
 $$
@@ -1578,9 +1577,7 @@ $$
 
 ## 一维区间是否分离
 
-$$
-\boxed{ A_{\text{max}} \lt B_{\text{min}} \quad\lor\quad B_{\text{max}} \lt A_{\text{min}} }
-$$
+$$ \boxed{ A_{\text{max}} \lt B_{\text{min}} \quad\lor\quad B_{\text{max}} \lt A_{\text{min}} } $$
 
 ## OBB 在任意轴 L 上的投影半径
 

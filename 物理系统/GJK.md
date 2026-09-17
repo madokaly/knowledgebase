@@ -56,37 +56,37 @@ $$
 那么一定存在一个点：
 
 $$
-\[ p\in A \]
+\[ p\in A 
 $$
 
 同时：
 
 $$
-\[ p\in B \]
+\[ p\in B 
 $$
 
 于是我们从 A 选：
 
 $$
-\[ a=p \]
+\[ a=p 
 $$
 
 从 B 选：
 
 $$
-\[ b=p \]
+\[ b=p 
 $$
 
 那么：
 
 $$
-\[ a-b=p-p=0 \]
+\[ a-b=p-p=0 
 $$
 
 所以：
 
 $$
-\[ 0\in A-B \]
+\[ 0\in A-B 
 $$
 
 反过来也一样。
@@ -94,25 +94,25 @@ $$
 如果：
 
 $$
-\[ 0\in A-B \]
+\[ 0\in A-B 
 $$
 
 那么一定存在：
 
 $$
-\[ a\in A,b\in B \]
+\[ a\in A,b\in B 
 $$
 
 满足：
 
 $$
-\[ a-b=0 \]
+\[ a-b=0 
 $$
 
 因此：
 
 $$
-\[ a=b \]
+\[ a=b 
 $$
 
 说明两个物体有公共点。
@@ -120,7 +120,7 @@ $$
 所以最终得到一个极其重要的结论：
 
 $$
-\[ \boxed{ A与B碰撞 \iff 原点O位于A-B内部 } \]
+\[ \boxed{ A与B碰撞 \iff 原点O位于A-B内部 } 
 $$
 
 于是一个“两物体碰撞问题”，被转化成：
@@ -147,7 +147,7 @@ A                 B
 对 A 的每个点 \(a\)，对 B 的每个点 \(b\)，计算：
 
 $$
-\[ a-b \]
+\[ a-b 
 $$
 
 这些点形成一个新的凸体：
@@ -203,8 +203,7 @@ GJK 的精妙之处就在这里：
 # 4. Support Mapping
 
 假设有一个凸体：
-<img width="1024" height="952" alt="image" src="https://github.com/user-attachments/assets/6f6ca99e-1334-4365-9180-b65c52ccace0" />
-
+![[Pasted image 20260915005959.png]]
 现在给一个方向：
 
 $$
@@ -424,7 +423,7 @@ $$
 假设我们随便选择一个初始方向：
 
 $$
-\[ d \]
+\[ d 
 $$
 
 通常可以使用：
@@ -490,8 +489,7 @@ $$
 
 假设：
 
-<img width="1024" height="301" alt="image" src="https://github.com/user-attachments/assets/040e1ec8-251e-4e9a-8e2d-acfe0ddb18e2" />
-
+![[Pasted image 20260915010533.png]]
 
 我们正在朝原点方向 \(d\) 找整个 Minkowski Difference 最远的点。
 
@@ -513,8 +511,7 @@ $$
 
 于是存在一个平面：
 
-<img width="1024" height="271" alt="image" src="https://github.com/user-attachments/assets/256a3220-33a3-4191-bf52-05ef5adfaf02" />
-
+![[Pasted image 20260915010738.png]]
 
 把 Minkowski Difference 和原点分开。
 
@@ -862,13 +859,13 @@ $$
 定义：
 
 $$
-\[ AB=B-A \]\[ AC=C-A \]\[ AO=-A \]
+\[ AB=B-A \[ AC=C-A \[ AO=-A 
 $$
 
 三角形法线：
 
 $$
-\[ ABC=AB\times AC \]
+\[ ABC=AB\times AC 
 $$
 
 现在空间被三角形的边分成不同区域。
@@ -907,7 +904,7 @@ GJK 要判断：
 方向：
 
 $$
-\[ AB\times ABC \]
+\[ AB\times ABC 
 $$
 
 例如：
@@ -925,7 +922,7 @@ $$
 判断：
 
 $$
-\[ (AB\times ABC)\cdot AO>0 \]
+\[ (AB\times ABC)\cdot AO>0 
 $$
 
 如果成立：
@@ -953,7 +950,7 @@ AB
 同理：
 
 $$
-\[ ABC\times AC \]
+\[ ABC\times AC 
 $$
 
 是 AC 的外侧方向。
@@ -961,7 +958,7 @@ $$
 如果：
 
 $$
-\[ (ABC\times AC)\cdot AO>0 \]
+\[ (ABC\times AC)\cdot AO>0 
 $$
 
 那么：
@@ -973,7 +970,7 @@ B 没用了
 Simplex 变成：
 
 $$
-\[ AC \]
+\[ AC 
 $$
 
 继续处理线段。
@@ -1009,25 +1006,25 @@ $$
 使用：
 
 $$
-\[ ABC\cdot AO \]
+\[ ABC\cdot AO 
 $$
 
 如果：
 
 $$
-\[ ABC\cdot AO>0 \]
+\[ ABC\cdot AO>0 
 $$
 
 则：
 
 $$
-\[ d=ABC \]
+\[ d=ABC 
 $$
 
 否则：
 
 $$
-\[ d=-ABC \]
+\[ d=-ABC 
 $$
 
 同时通常交换 B、C，保持 simplex winding 一致：
@@ -1066,19 +1063,19 @@ direction = -ABC;
 一个四面体有 4 个面：
 
 $$
-\[ ABC \]\[ ACD \]\[ ADB \]\[ BCD \]
+\[ ABC \[ ACD \[ ADB \[ BCD 
 $$
 
 由于：
 
 $$
-\[ A \]
+\[ A 
 $$
 
 是最新加入的 support point，标准 GJK 迭代中通常重点检查包含 A 的三个面：
 
 $$
-\[ ABC \]\[ ACD \]\[ ADB \]
+\[ ABC \[ ACD \[ ADB 
 $$
 
 ---
@@ -1108,13 +1105,13 @@ D 不可能帮忙包围 O
 于是：
 
 $$
-\[ ABCD \]
+\[ ABCD 
 $$
 
 缩减成：
 
 $$
-\[ ABC \]
+\[ ABC 
 $$
 
 继续执行三角形 GJK。
@@ -1122,7 +1119,7 @@ $$
 同理如果在：
 
 $$
-\[ ACD \]
+\[ ACD 
 $$
 
 外面：
@@ -1134,7 +1131,7 @@ Simplex = ACD
 如果在：
 
 $$
-\[ ADB \]
+\[ ADB 
 $$
 
 外面：
@@ -1152,13 +1149,13 @@ O 不在这三个面的任何外侧
 由于当前 GJK simplex 的构造条件，可以得到：
 
 $$
-\[ \boxed{O位于四面体内部} \]
+\[ \boxed{O位于四面体内部} 
 $$
 
 于是：
 
 $$
-\[ \boxed{Collision} \]
+\[ \boxed{Collision} 
 $$
 
 这就是 3D GJK 最终成功条件。
@@ -1343,13 +1340,13 @@ bool HandleSimplex(
 SAT 对两个 OBB：
 
 $$
-\[ A_0,A_1,A_2 \]\[ B_0,B_1,B_2 \]
+\[ A_0,A_1,A_2 \[ B_0,B_1,B_2 
 $$
 
 必须检测：
 
 $$
-\[ 3+3+9=15 \]
+\[ 3+3+9=15 
 $$
 
 根候选轴。
@@ -1409,25 +1406,25 @@ SupportCapsule(-d)
 Sphere：
 
 $$
-\[ Center=C \]
+\[ Center=C 
 $$
 
 半径：
 
 $$
-\[ r \]
+\[ r 
 $$
 
 方向：
 
 $$
-\[ d \]
+\[ d 
 $$
 
 那么：
 
 $$
-\[ Support(d) = C+r\frac{d}{|d|} \]
+\[ Support(d) = C+r\frac{d}{|d|} 
 $$
 
 因为球在某个方向最远的点，就是球心加：
@@ -1458,25 +1455,25 @@ Capsule 可以看成：
 假设中心线端点：
 
 $$
-\[ A,B \]
+\[ A,B 
 $$
 
 半径：
 
 $$
-\[ r \]
+\[ r 
 $$
 
 先找线段在方向 \(d\) 最远的端点：
 
 $$
-\[ P= \begin{cases} A,&A\cdot d>B\cdot d\\ B,&otherwise \end{cases} \]
+\[ P= \begin{cases} A,&A\cdot d>B\cdot d\\ B,&otherwise \end{cases} 
 $$
 
 然后：
 
 $$
-\[ Support(d) = P+r\hat d \]
+\[ Support(d) = P+r\hat d 
 $$
 
 因此 Capsule 接入 GJK 也特别容易。
@@ -1488,7 +1485,7 @@ $$
 如果凸包有顶点：
 
 $$
-\[ v_1,v_2,\dots,v_n \]
+\[ v_1,v_2,\dots,v_n 
 $$
 
 最简单实现：
@@ -1517,7 +1514,7 @@ Vector3 Support(Vector3 d)
 复杂度：
 
 $$
-\[ O(N) \]
+\[ O(N) 
 $$
 
 但真实物理引擎会利用 convex hull 邻接关系做 hill climbing，使 support 搜索更快。
@@ -1593,7 +1590,7 @@ Collision = true
 它实际上只告诉你：
 
 $$
-\[ \boxed{两个物体相交} \]
+\[ \boxed{两个物体相交} 
 $$
 
 但游戏物理通常还需要：
@@ -1621,13 +1618,13 @@ $$
 需要得到：
 
 $$
-\[ Normal \]
+\[ Normal 
 $$
 
 以及：
 
 $$
-\[ PenetrationDepth \]
+\[ PenetrationDepth 
 $$
 
 GJK 本身的传统布尔版本并不能完整给出这些。
@@ -1635,7 +1632,7 @@ GJK 本身的传统布尔版本并不能完整给出这些。
 所以通常是：
 
 $$
-\[ \boxed{GJK+EPA} \]
+\[ \boxed{GJK+EPA} 
 $$
 
 GJK：
@@ -1697,7 +1694,7 @@ EPA，Expanding Polytope Algorithm，会从这个 simplex 开始不断：
 原点到这个表面的最短方向：
 
 $$
-\[ n \]
+\[ n 
 $$
 
 就是碰撞法线。
@@ -1705,7 +1702,7 @@ $$
 距离：
 
 $$
-\[ d \]
+\[ d 
 $$
 
 就是穿透深度。
@@ -1742,7 +1739,7 @@ Collision / No Collision
 
 实际上它原本特别擅长解决：
 
-\[ 两个凸体之间的最近距离 \]
+\[ 两个凸体之间的最近距离 
 
 例如：
 
@@ -1781,7 +1778,7 @@ Conservative Advancement
 如果这个最近距离最终：
 
 $$
-\[ =0 \]
+\[ =0 
 $$
 
 那么就是碰撞。
@@ -1789,7 +1786,7 @@ $$
 所以从更深层次理解 GJK：
 
 $$
-\[ \boxed{ GJK实际上是在凸体中寻找离原点最近的位置 } \]
+\[ \boxed{ GJK实际上是在凸体中寻找离原点最近的位置 } 
 $$
 
 而：
@@ -1870,7 +1867,7 @@ O 被 simplex 包住
 
 最近距离：
 
-\[ 0 \]
+\[ 0 
 
 碰撞。
 
@@ -1910,7 +1907,7 @@ Support point
 
 Simplex 永远最多：
 
-\[ 4 \]
+\[ 4 
 
 个点。
 
@@ -1924,7 +1921,7 @@ vs
 
 也不会真的比较：
 
-\[ 100\times100 \]
+\[ 100\times100 
 
 个顶点组合。
 
@@ -1954,7 +1951,7 @@ while (true)
 所以真正实现通常需要：
 
 $$
-\[ \epsilon \]
+\[ \epsilon 
 $$
 
 最大迭代次数：
@@ -2098,12 +2095,12 @@ No Collision   Collision
 所以真正值得记住的不是某一段 `Cross(Cross())` 代码，而是这三个核心思想：
 
 $$
-\boxed{ 碰撞 \iff O\in A-B } \]\[ \boxed{ Support_{A-B}(d) = Support_A(d)-Support_B(-d) }
+\boxed{ 碰撞 \iff O\in A-B } \[ \boxed{ Support_{A-B}(d) = Support_A(d)-Support_B(-d) }
 $$
 
 以及：
 
-\[ \boxed{ 不断维护距离原点最近、最可能包围原点的Simplex } \]
+\[ \boxed{ 不断维护距离原点最近、最可能包围原点的Simplex } 
 
 一旦这三个东西理解透了，GJK 的 Line / Triangle / Tetrahedron Handler 就只是**在判断“原点处于当前 Simplex 的哪个 Voronoi 区域”**。
 
