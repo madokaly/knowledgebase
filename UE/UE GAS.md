@@ -55,7 +55,8 @@ ASC、GA、AttributeSet、GE、GameplayTag、AbilityTask。
 
 ### 1.2 各组件之间的关系
 
-![[局部截取_20261020_012944.png]]
+<img width="744" height="521" alt="image" src="https://github.com/user-attachments/assets/3055dbc9-7d54-4a40-96d4-97a96c227a2e" />
+
 
 可以用一句话理解这些组件：
 
@@ -351,7 +352,8 @@ GA 不一定是玩家主动按键触发的技能。被动能力、受击反馈�
 
 ### 3.1 GA 的生命周期
 
-![[局部截取_20261020_013130.png]]
+<img width="742" height="485" alt="image" src="https://github.com/user-attachments/assets/f5c70274-f846-410d-b583-35b8a7c6bd09" />
+
 
 其中几个函数特别重要。
 
@@ -625,7 +627,8 @@ CurrentValue：当前计算值
 
 假设角色基础攻击力为 100。
 
-![[局部截取_20261020_013213.png]]
+<img width="753" height="513" alt="image" src="https://github.com/user-attachments/assets/4318e10d-2f1d-49b7-ade4-e7b5b1b477f8" />
+
 
 
 这里必须理解：
@@ -901,7 +904,8 @@ Buff：狂暴
 
 狂暴 Buff 叠层示例
 
-![[局部截取_20261020_013335.png]]
+<img width="739" height="213" alt="image" src="https://github.com/user-attachments/assets/07291a5b-70f9-46b6-82fc-be6cfb16fbb5" />
+
 
 GAS 还支持配置叠层持续时间刷新、周期重置以及达到叠层上限时的溢出行为。
 
@@ -1308,7 +1312,8 @@ $$
 
 \(Def\)：目标防御减伤值
 
-![[局部截取_20261020_013513.png]]
+<img width="740" height="403" alt="image" src="https://github.com/user-attachments/assets/6a60e4b7-3dc1-44e8-847f-e67d3012b656" />
+
 ### 9.3 MMC 和 ExecCalc 的区别
 
 |对比项|MMC|ExecCalc|
@@ -1568,7 +1573,8 @@ GameplayTag、GameplayCue 以及技能激活，也分别涉及相应的网络机
 
 假设玩家的技能有 100ms 往返延迟。
 
-![[局部截取_20261020_013718.png]]
+<img width="737" height="546" alt="image" src="https://github.com/user-attachments/assets/0b48596c-c6f3-41fb-8c81-0794345ea4fc" />
+
 
 GAS 内部通过 Prediction Key（预测键）等机制关联客户端的预测操作与服务器确认。
 
@@ -1838,7 +1844,8 @@ GA_Dodge（闪避技能）
 
 理解 GAS 不建议一开始就研究所有源码，而是按依赖关系逐层掌握。
 
-![[局部截取_20261020_013559.png]]
+<img width="746" height="569" alt="image" src="https://github.com/user-attachments/assets/cfb4881a-a8fd-4c89-9403-27c8353a0ff6" />
+
 
 对于动作战斗开发，我认为最值得深入研究的是以下四组关系：
 
