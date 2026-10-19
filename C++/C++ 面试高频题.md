@@ -337,7 +337,8 @@ public:
 
 常见 ABI 中，对象可能占用 12 字节：
 
-![[局部截取_20261020_023741.png]]
+<img width="734" height="207" alt="image" src="https://github.com/user-attachments/assets/d1e21a6e-7727-4b63-87e8-b661e1dd3bc6" />
+
 
 ### 12. 什么是内存对齐？为什么需要内存对齐？
 
@@ -557,7 +558,8 @@ delete obj;
     
 - vtable（Virtual Function Table）：虚函数表。
 
-![[局部截取_20261020_023810.png]]
+<img width="738" height="518" alt="image" src="https://github.com/user-attachments/assets/ed9d1312-866f-46df-b7fc-31474e890ac2" />
+
 
 运行时通过对象的动态类型选择对应的虚函数实现。
 
@@ -908,7 +910,8 @@ auto p2 = p1;
 
 `shared_ptr` 通常通过控制块（Control Block）管理共享所有权。
 
-![[局部截取_20261020_023854.png]]
+<img width="735" height="423" alt="image" src="https://github.com/user-attachments/assets/b2fe4497-e691-4cd2-9bd8-924f6f65c1c6" />
+
 
 控制块通常包含：
 
@@ -1499,7 +1502,8 @@ nums.push_back(30);
 
 常见实现示意：
 
-![[局部截取_20261020_023945.png]]
+<img width="734" height="134" alt="image" src="https://github.com/user-attachments/assets/c3fe54f6-4e38-47a8-a8ae-4c86351c2974" />
+
 
 时间复杂度：
 
@@ -2046,7 +2050,8 @@ C++20 协程通常涉及：
 
 流程示意：
 
-![[局部截取_20261020_024024.png]]
+<img width="740" height="378" alt="image" src="https://github.com/user-attachments/assets/1f2ab6f7-4917-4d6d-b28d-0a5fd47f31d3" />
+
 
 面试追问：协程和线程有什么区别？
 
@@ -2220,7 +2225,8 @@ AoS 将一个实体的数据放在一起。
 
 SoA 将相同属性的数据集中存储。
 
-![[局部截取_20261020_024049.png]]
+<img width="735" height="296" alt="image" src="https://github.com/user-attachments/assets/e0100386-267a-4ad0-a400-406e8475694c" />
+
 
 为什么 ECS（实体组件系统）经常重视 SoA 和数据局部性？
 
@@ -2240,18 +2246,8 @@ SoA 将相同属性的数据集中存储。
 
 如果是准备游戏客户端或 UE C++ 开发岗位，建议按下面的优先级复习。
 
-|优先级|知识模块|推荐掌握程度|
-|---|---|---|
-|P0|指针、引用、const、内存管理|必须非常熟练|
-|P0|构造析构、拷贝、移动语义|必须能写代码|
-|P0|虚函数、对象布局、多态|必须理解底层原理|
-|P0|智能指针、RAII|必须能解释生命周期|
-|P0|vector、map、unordered_map|必须熟悉原理和复杂度|
-|P0|多线程、锁、atomic|必须会分析线程安全问题|
-|P1|模板、完美转发、SFINAE|理解推导过程并能举例|
-|P1|缓存局部性、内存对齐、对象池|能结合游戏性能优化分析|
-|P1|UE UObject、GC、UE 容器|UE 开发岗位重点|
-|P2|Concepts、协程、Ranges|熟悉原理与基本使用|
+<img width="694" height="386" alt="局部截取_20261020_030133" src="https://github.com/user-attachments/assets/9494bbf9-919e-44c6-9a79-4a14fcc807e4" />
+
 
 ## 十、最值得深入掌握的 10 道面试题
 
