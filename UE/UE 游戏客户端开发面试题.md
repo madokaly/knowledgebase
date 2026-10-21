@@ -59,7 +59,8 @@ public:
 };
 ```
 
-![[局部截取_20261022_030057.png]]
+<img width="738" height="349" alt="image" src="https://github.com/user-attachments/assets/29bbc337-9765-44e3-8cd1-8884a77c61c9" />
+
 
 反射系统支撑的主要功能有：蓝图调用、属性编辑、序列化、网络复制、GC 引用遍历等。
 
@@ -164,7 +165,8 @@ UE 的 GC 主要管理 UObject 体系中的对象。
 
 简化为：
 
-![[局部截取_20261022_030138.png]]
+<img width="735" height="404" alt="image" src="https://github.com/user-attachments/assets/12082d8e-d8e5-43eb-9973-992903b11dc1" />
+
 
 例如：
 
@@ -734,7 +736,8 @@ void Attack()
 
 可以将战斗拆成多个相互协作的模块：
 
-![[局部截取_20261022_030349.png]]
+<img width="738" height="415" alt="image" src="https://github.com/user-attachments/assets/e1b5352f-5aaf-4169-bab5-47b1a8c489c1" />
+
 
 常见事件：
 
@@ -1427,7 +1430,8 @@ Simulated Proxy
 
 ## 39. CharacterMovement 的客户端预测和服务器纠正原理是什么？
 
-![[局部截取_20261022_030518.png]]
+<img width="739" height="279" alt="image" src="https://github.com/user-attachments/assets/35ee5b5b-48e4-4e03-8e08-bd2847f20e08" />
+
 
 UE 的 `UCharacterMovementComponent` 包含预测、保存移动、服务器校验和客户端修正等机制。
 
