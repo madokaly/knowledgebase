@@ -19,7 +19,8 @@
 
 先看整体设计。
 
-![[局部截取_20261023_024446.png]]
+<img width="740" height="562" alt="image" src="https://github.com/user-attachments/assets/4924e182-5957-4a4b-a69c-c1fe735fbb67" />
+
 下面逐题详细解释。
 
 # 一、数据配置什么时候加载？
@@ -288,7 +289,8 @@ public:
 
 现在资源可以按功能独立控制。
 
-![[局部截取_20261023_024529.png]]
+<img width="735" height="190" alt="image" src="https://github.com/user-attachments/assets/be4a1d3e-bc99-44e0-a0b4-caf22a283df0" />
+
 
 ## 4. UE5 C++ 异步加载示例
 
@@ -916,7 +918,8 @@ UE 官方支持使用 DataValidation Commandlet 进行自动化资产验证。
 
 我推荐 候选配置 + 完整校验 + 原子切换 + 回滚。
 
-![[局部截取_20261023_024635.png]]
+<img width="737" height="392" alt="image" src="https://github.com/user-attachments/assets/47706f6c-1092-4cdd-88ab-a8974d19f6a5" />
+
 
 例如角色正在释放技能：
 
@@ -1017,7 +1020,8 @@ Cooldown：10 秒
 
 比较常见的方案是在连接游戏会话前进行兼容性校验。
 
-![[局部截取_20261023_024658.png]]
+<img width="737" height="272" alt="image" src="https://github.com/user-attachments/assets/6d0e7811-33f5-40ae-9b53-c7aeb11e7de7" />
+
 
 例如自定义握手结构：
 
@@ -1289,7 +1293,8 @@ $$
 
 ## 一次完整的多人副本加载流程
 
-![[局部截取_20261023_024740.png]]
+<img width="732" height="711" alt="image" src="https://github.com/user-attachments/assets/adf1d978-931b-4c27-a05a-6631eb8110cc" />
+
 
 ## 七、面试时怎么回答这五道题？
 
