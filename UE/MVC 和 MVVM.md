@@ -25,7 +25,8 @@ MVC 全称 Model-View-Controller（模型-视图-控制器）。
 
 以游戏中的角色血条为例：
 
-![[局部截取_20261025_203145.png]]
+<img width="736" height="432" alt="image" src="https://github.com/user-attachments/assets/50d62717-6917-4d1a-bf5c-eeeb576c6b46" />
+
 
 这里要注意：MVC 并不强制 Controller 直接调用 View 刷新。 在经典 MVC 中，View 可以观察 Model 的变化；在某些实际项目中，也会由 Controller 主动调用 View 的刷新方法。
 
@@ -79,7 +80,8 @@ View 绑定这个属性即可。
 
 ### 1. MVVM 的工作流程
 
-![[局部截取_20261025_203459.png]]
+<img width="736" height="326" alt="image" src="https://github.com/user-attachments/assets/cb023fbc-67eb-4d3e-8d24-3f369dfc3b27" />
+
 
 假设角色受到攻击：
 
@@ -340,7 +342,8 @@ UE5 的 UMG 支持 MVVM 工作流。通过启用 UMG Viewmodel 插件，可以�
 
 假设使用 GAS（Gameplay Ability System）管理角色血量。
 
-![[局部截取_20261025_203638.png]]
+<img width="734" height="351" alt="image" src="https://github.com/user-attachments/assets/d82f88ba-cdad-4ad1-ac0a-a3ae888bd350" />
+
 
 这样，战斗系统不需要直接操作 UI，UI 也不需要反复从角色身上获取血量。
 
