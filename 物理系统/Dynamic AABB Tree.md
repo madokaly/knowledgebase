@@ -130,7 +130,8 @@ AABB 的优势是判断简单、计算成本低。
 
 一个典型的 Dynamic AABB Tree 如下：
 
-![[局部截取_20261026_234818.png]]
+<img width="737" height="498" alt="image" src="https://github.com/user-attachments/assets/a2ee6547-22f2-4f78-bdab-97bf6fd4a2d6" />
+
 
 假设 A、B、C、D 是四个物体：
 
@@ -201,7 +202,7 @@ Dynamic AABB Tree 不要求不同子树的 AABB 完全不重叠。
 
 假设一个物体不断移动：
 
-![[局部截取_20261026_234834.png]]
+<img width="737" height="296" alt="image" src="https://github.com/user-attachments/assets/880cc9af-9fc4-48af-9066-67665dc380fb" />
 
 如果叶子节点保存的是完全紧贴物体的 AABB，那么物体每次移动：
 
@@ -220,7 +221,8 @@ Dynamic AABB Tree 不要求不同子树的 AABB 完全不重叠。
 
 Fat AABB（膨胀包围盒）是在真实 AABB 外面额外扩展一定空间。
 
-![[局部截取_20261026_234846.png]]
+<img width="740" height="403" alt="image" src="https://github.com/user-attachments/assets/e18e620f-4a05-4b1a-81dd-b60caeaec7fc" />
+
 
 假设：
 
@@ -336,7 +338,8 @@ Dynamic AABB Tree 的插入算法是面试中比较重要的知识点。
 
 假设当前树中有 A、B、C、D 四个物体，现在需要插入 E。
 
-![[局部截取_20261026_234910.png]]
+<img width="739" height="499" alt="image" src="https://github.com/user-attachments/assets/62eef397-8765-43bd-b602-87cc8c779af0" />
+
 
 插入的核心过程分为四步：
 
@@ -419,7 +422,8 @@ $$
 
 需要比较三个选择：
 
-![[局部截取_20261026_234952.png]]
+<img width="738" height="285" alt="image" src="https://github.com/user-attachments/assets/83bd0f33-f3d6-4af6-a804-c8773a73da9c" />
+
 
 设：
 
@@ -810,7 +814,8 @@ Y: [3, 5]
 
 因此，通常采用：
 
-![[局部截取_20261026_235117.png]]
+<img width="741" height="254" alt="image" src="https://github.com/user-attachments/assets/87639b44-72ee-4626-8a1a-7e994f5678a6" />
+
 
 核心代码：
 
@@ -906,7 +911,8 @@ Dynamic AABB Tree 可以通过局部树旋转改善平衡。
 
 例如：
 
-![[局部截取_20261026_235150.png]]
+<img width="738" height="365" alt="image" src="https://github.com/user-attachments/assets/25b37382-be51-40fa-a2d1-e16d9047d6cb" />
+
 
 旋转前：
 
