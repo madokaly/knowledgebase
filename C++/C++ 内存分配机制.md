@@ -36,7 +36,8 @@ C++ 内存管理是游戏客户端开发中非常重要的知识点，尤其是 
 
 ## 1.1 典型的进程虚拟内存布局
 
-![[局部截取_20261026_235501.png]]
+<img width="737" height="871" alt="image" src="https://github.com/user-attachments/assets/39cb711e-f5a3-42a0-b4a5-2482e8d25d59" />
+
 
 图中为常见概念模型，实际地址排列、栈与堆的增长方向、ASLR 布局均由平台与实现决定。
 
@@ -547,7 +548,8 @@ delete[] Enemies
 
 一种常见实现是：
 
-![[局部截取_20261026_235544.png]]
+<img width="738" height="304" alt="image" src="https://github.com/user-attachments/assets/93a444f1-47e8-40e5-afa4-bedbea7e3ce2" />
+
 
 有些 ABI 会在数组内存前面保存一个 Cookie：
 
@@ -717,7 +719,8 @@ sizeof(Test) == 12
 
 ## 6.1 对齐示意
 
-![[局部截取_20261026_235608.png]]
+<img width="738" height="297" alt="image" src="https://github.com/user-attachments/assets/9ea12044-5eba-44fc-b50b-b265de9ea339" />
+
 
 其典型分布如下：
 
@@ -905,7 +908,8 @@ new → 一定调用 malloc
 
 假设分配器管理一段连续内存。
 
-![[局部截取_20261026_235631.png]]
+<img width="736" height="361" alt="image" src="https://github.com/user-attachments/assets/e054ce3d-d0fd-4adf-95ce-3107c56c5735" />
+
 
 假设剩余两个独立空闲块：
 
@@ -1828,7 +1832,8 @@ UObject 由 UE 对象系统和垃圾回收机制管理。直接 delete 绕过了
 
 从游戏引擎角度理解 C++ 内存分配，我建议把它分为四层：
 
-![[局部截取_20261026_235809.png]]
+<img width="738" height="394" alt="image" src="https://github.com/user-attachments/assets/9f977649-17d8-437e-9b9f-1c7be8d7d306" />
+
 
 对 UE 游戏客户端来说，优先掌握的重点是：
 
