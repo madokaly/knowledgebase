@@ -10,7 +10,8 @@ UI 优化的核心可以总结为：减少 CPU 重建、降低 GPU 绘制成本�
 
 首先需要知道 UI 渲染的大致流程。
 
-![[局部截取_20261026_225721.png]]
+<img width="738" height="685" alt="image" src="https://github.com/user-attachments/assets/bc471033-7fe5-4ff6-a1bf-999e654d099b" />
+
 
 UI 优化大致可以分成以下几个方向。
 
@@ -67,7 +68,8 @@ UI 优化大致可以分成以下几个方向。
 
 ### 2.2 UI 合批的基本原理
 
-![[局部截取_20261026_225743.png]]
+<img width="739" height="355" alt="image" src="https://github.com/user-attachments/assets/b5d20f9a-f5c5-4147-95dc-9ba00127d149" />
+
 
 合批的目标是让多个 UI 元素在满足渲染顺序和状态兼容等条件下，共享较少的绘制命令。
 
@@ -90,7 +92,8 @@ GPU 可能需要在绘制它们时多次切换纹理。
 
 如果将它们放入同一图集：
 
-![[局部截取_20261026_225800.png]]
+<img width="736" height="226" alt="image" src="https://github.com/user-attachments/assets/4240f74f-6701-4143-9738-df36d9738684" />
+
 
 每个 UI Image 可以使用不同的 UV，但采样同一张纹理。
 
@@ -148,7 +151,8 @@ Overdraw 指同一个屏幕像素被重复绘制多次。
 
 如果多个 UI 元素重叠，同一块像素可能经历多次片元处理和颜色混合。
 
-![[局部截取_20261026_225821.png]]
+<img width="738" height="521" alt="image" src="https://github.com/user-attachments/assets/4b17fa64-11b1-43e0-9a9d-4d66141bc921" />
+
 
 例如：
 
@@ -527,7 +531,8 @@ ScrollView
 
 考虑滚动过程中的缓冲区，可以创建 12～14 个可复用控件。
 
-![[局部截取_20261026_225939.png]]
+<img width="738" height="298" alt="image" src="https://github.com/user-attachments/assets/8de24ee7-d835-45cb-b796-633be4554572" />
+
 
 ### 6.3 虚拟列表的实现过程
 
@@ -896,7 +901,8 @@ Retainer Box，也称 Retainer Panel，其机制与 Invalidation Box 不一样�
 
 它可以先把子 UI 绘制到 Render Target（渲染目标纹理），再将这张纹理合成到最终屏幕。
 
-![[局部截取_20261026_230032.png]]
+<img width="736" height="326" alt="image" src="https://github.com/user-attachments/assets/29b3b344-2846-47fd-9485-48e9d3e03679" />
+
 
 这种机制有两个重要好处。
 
@@ -1120,7 +1126,8 @@ UGUI 中尤其值得关注 `Canvas.BuildBatch`、Canvas 更新相关的性能采
 
 可以按照下面的分析流程排查。
 
-![[局部截取_20261026_230120.png]]
+<img width="739" height="445" alt="image" src="https://github.com/user-attachments/assets/01a50678-7c2a-460c-a20e-db1357fc9b67" />
+
 
 还需要特别区分两类卡顿。
 
