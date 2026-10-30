@@ -92,7 +92,8 @@ BVH 的解决思路是：先检测大包围盒，再逐步缩小检测范围。
 
 ### 1.3 BVH 的空间组织方式
 
-![[局部截取_20261031_005612.png]]
+<img width="754" height="470" alt="image" src="https://github.com/user-attachments/assets/6f8a0dea-e6c8-4057-909c-c295a33b9a08" />
+
 
 如果射线完全没有与左子树 A 的包围盒相交，那么：
 
@@ -198,7 +199,8 @@ BVH 的构建是理解其原理的重点。
 
 假设有 8 个物体。
 
-![[局部截取_20261031_005634.png]]
+<img width="743" height="488" alt="image" src="https://github.com/user-attachments/assets/5737f0f0-0d72-49c5-bd68-37bc7e67839d" />
+
 
 算法步骤如下。
 
@@ -422,7 +424,7 @@ Root：相交
 
 只需要进入 E 节点。
 
-![[局部截取_20261031_005733.png]]
+<img width="766" height="393" alt="image" src="https://github.com/user-attachments/assets/82c5f81c-168a-46f2-8322-ee7fb89c1818" />
 
 这里被剔除的 A 子树中，无论有 10 个、100 个还是 10000 个物体，都不需要继续检测。
 
@@ -1087,7 +1089,7 @@ Refit 最大的问题是：只更新包围盒，不改善树的拓扑结构。
 
 假设最初 BVH 将物体按照左右两组划分。
 
-![[局部截取_20261031_010021.png]]
+<img width="775" height="333" alt="image" src="https://github.com/user-attachments/assets/a95c2e1d-9b56-4e21-a435-bd1c4185ed81" />
 
 如果左子树的物体移动到右边，右子树的物体移动到左边：
 
@@ -1552,7 +1554,7 @@ std::vector<int> Indices;
 
 两者最本质的区别是：
 
-![[局部截取_20261031_010050.png]]
+<img width="760" height="328" alt="image" src="https://github.com/user-attachments/assets/d94f483c-8204-482d-b768-412d42faa5e8" />
 
 |对比|BVH|KD-Tree|
 |---|---|---|
