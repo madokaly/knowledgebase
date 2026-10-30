@@ -132,7 +132,7 @@ int Axis = Depth % 3;
 
 ### 1.3 空间是怎么被划分的？
 
-![[局部截取_20261031_003348.png]]
+<img width="748" height="616" alt="image" src="https://github.com/user-attachments/assets/482a7ce1-a6fe-4d29-8c5c-136627c59401" />
 
 这里要注意一个容易混淆的概念：
 
@@ -263,7 +263,7 @@ $$
 
 具体结构为：
 
-![[局部截取_20261031_003451.png]]
+<img width="762" height="501" alt="image" src="https://github.com/user-attachments/assets/8ae17e5d-071c-4193-9af0-cc3369bd2d15" />
 
 这里最重要的是：KD-Tree 的左右子树关系取决于当前节点的划分轴，而不是所有层都比较 X 坐标。
 
@@ -507,7 +507,8 @@ F → C → E
 
 例如下面的场景：
 
-![[局部截取_20261031_004422.png]]
+<img width="727" height="458" alt="image" src="https://github.com/user-attachments/assets/33458fb3-d3da-4236-90b3-1ee715ba0600" />
+
 
 Q 位于划分线右侧，但它距离左侧的 A 比距离右侧的 B 更近。
 
@@ -577,7 +578,8 @@ $$
 d_{plane}\le d_{best}
 $$
 
-![[局部截取_20261031_004649.png]]
+<img width="707" height="272" alt="image" src="https://github.com/user-attachments/assets/df9e21b5-0862-4f77-90c0-a43dee19450c" />
+
 搜索范围已经碰到或跨过划分平面，另一侧可能存在更近的点，需要继续检查。
 
 实际算法中使用平方距离，避免开平方：
@@ -703,8 +705,7 @@ $$
 
 现在把整个流程整理成算法。
 
-![[局部截取_20261031_005056.png]]
-
+<img width="738" height="944" alt="image" src="https://github.com/user-attachments/assets/b0aa193c-e59d-4f04-b9bb-c3ffdb681dd8" />
 
 可以把这个过程理解成：
 
@@ -1424,7 +1425,7 @@ $$
 
 如果每个节点额外保存整棵子树的 AABB（Axis-Aligned Bounding Box，轴对齐包围盒），就能进行更强的剪枝。
 
-![[局部截取_20261031_005254.png]]
+<img width="694" height="443" alt="image" src="https://github.com/user-attachments/assets/07df7f3a-524e-44f5-9f2c-590a6d0942de" />
 
 对于查询点 Q 和 AABB，可以计算：
 
@@ -1493,21 +1494,22 @@ KD-Tree、QuadTree、Octree、BVH 都用于空间组织，但是划分方式不�
 
 KD-Tree
 按照选定维度递归二分空间。
-![[Pasted image 20261031005335.png]]
+<img width="1000" height="930" alt="image" src="https://github.com/user-attachments/assets/c2224ce7-81eb-4873-ad62-480b8276e0b6" />
 
 QuadTree（四叉树）
 将二维区域递归分为四个子区域。
 
-![[Pasted image 20261031005353.png]]
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/ca61f95f-371c-4bfa-9757-d61854c04a93" />
 
 Octree（八叉树）
 将三维空间递归分为八个子区域。
 
-![[Pasted image 20261031005358.png]]
+<img width="2048" height="1536" alt="image" src="https://github.com/user-attachments/assets/fc585e08-7871-4f3c-804a-88093a94d890" />
 
 BVH（包围体层次结构）
 使用层次包围体组织空间对象。
-![[Pasted image 20261031005405.png]]
+
+<img width="1440" height="1080" alt="image" src="https://github.com/user-attachments/assets/bf94659a-e7f6-4c1d-a898-d53c9723888d" />
 
 |数据结构|划分方式|主要适用场景|
 |---|---|---|
