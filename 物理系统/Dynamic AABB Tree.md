@@ -424,54 +424,7 @@ $$
 
 <img width="738" height="285" alt="image" src="https://github.com/user-attachments/assets/83bd0f33-f3d6-4af6-a804-c8773a73da9c" />
 
-
-设：
-
-$$
-U=Union(AABB_N,AABB_E)
-$$
-
-那么一种经典代价计算方式是：
-
-方案一：直接在当前节点处创建新父节点
-
-$$
-Cost_{Stop}=2P(U)
-$$
-
-方案二：继续向 A 子树下降
-
-$$
-Cost_A= \begin{cases} P(Union(A,E))+I,& A\text{为叶子}\\ P(Union(A,E))-P(A)+I,& A\text{为内部节点} \end{cases}
-$$
-
-方案三：继续向 B 子树下降
-
-$$
-Cost_B= \begin{cases} P(Union(B,E))+I,& B\text{为叶子}\\ P(Union(B,E))-P(B)+I,& B\text{为内部节点} \end{cases}
-$$
-
-其中：
-
-$$
-I=2(P(U)-P(N))
-$$
-
-表示继续向下插入时，对上层节点产生的继承代价（Inheritance Cost）。
-
-这些公式是经典 Box2D 版本的一种启发式代价模型，并不是所有 Dynamic AABB Tree 唯一的插入公式。
-
-如果：
-
-$$
-Cost_{Stop}<Cost_A
-$$
-
-且：
-
-$$
-Cost_{Stop}<Cost_B
-$$
+<img width="1151" height="1518" alt="image" src="https://github.com/user-attachments/assets/e07ce621-0cb9-4ef0-b5b0-627103ea5f0e" />
 
 就停止搜索，把当前节点作为新叶子的兄弟节点。
 
