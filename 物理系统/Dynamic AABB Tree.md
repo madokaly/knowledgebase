@@ -426,6 +426,12 @@ $$
 
 <img width="1151" height="1518" alt="image" src="https://github.com/user-attachments/assets/e07ce621-0cb9-4ef0-b5b0-627103ea5f0e" />
 
+<img width="1100" height="429" alt="image" src="https://github.com/user-attachments/assets/c4f3e43e-1de3-4cc9-9987-29abed2fb9b0" />
+
+<img width="1138" height="1476" alt="image" src="https://github.com/user-attachments/assets/ca837d71-1f6d-459b-a3b6-9ef4e04d6462" />
+
+<img width="1117" height="407" alt="image" src="https://github.com/user-attachments/assets/1fa4ed27-6d03-4c97-a3af-f85e3557c41b" />
+
 就停止搜索，把当前节点作为新叶子的兄弟节点。
 
 否则选择代价更小的子树继续下降。
