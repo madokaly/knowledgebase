@@ -5,11 +5,17 @@
 这部分不仅要知道如何使用容器，更重要的是理解：
 
 - 底层数据结构：连续数组、哈希表、红黑树、链表、稀疏数组。
+    
 - 内存管理：容器如何分配内存、扩容、缩容和释放。
+    
 - 时间复杂度：为什么有些容器查询快，有些插入和删除快。
+    
 - 性能差异：CPU Cache（缓存局部性）、内存碎片、内存分配次数。
+    
 - UE 特有机制：`UPROPERTY`、GC（垃圾回收）、反射、序列化、Allocator（内存分配器）。
+    
 - 工程实践：什么情况下使用 `TArray`、`TMap`、`TSet`、`std::vector`、`std::unordered_map` 等。
+    
 
 下面按 常用程度 + 底层实现 + 性能原理 + UE 实际使用 + 面试高频问题 进行讲解。
 
@@ -17,36 +23,39 @@
 
 ### 1.1 常见容器对应关系
 
-| UE 容器               | C++ STL 容器                | 底层结构      | 主要用途           |
-| ------------------- | ------------------------- | --------- | -------------- |
-| `TArray`            | `std::vector`             | 动态连续数组    | 有序数据、连续遍历      |
-| `TMap`              | `std::unordered_map`      | 哈希表       | Key-Value 快速查询 |
-| `TSet`              | `std::unordered_set`      | 哈希集合      | 去重、快速判断存在性     |
-| `TSparseArray`      | 无直接对应                     | 稀疏数组      | 频繁增删、复用空洞      |
-| `TDoubleLinkedList` | `std::list`               | 双向链表      | 节点增删           |
-| `TQueue`            | `std::queue`（接口近似）        | UE 无锁链表队列 | 生产者消费者         |
-| `TStaticArray`      | `std::array`              | 固定大小数组    | 固定数量的数据        |
-| `TBitArray`         | `std::vector<bool>`（用途近似） | 位压缩数组     | 大量布尔标记         |
-| `TChunkedArray`     | `std::deque`（部分特性近似）      | 分块存储      | 大量元素、减少整体搬迁    |
+|UE 容器|C++ STL 容器|底层结构|主要用途|
+|---|---|---|---|
+|`TArray`|`std::vector`|动态连续数组|有序数据、连续遍历|
+|`TMap`|`std::unordered_map`|哈希表|Key-Value 快速查询|
+|`TSet`|`std::unordered_set`|哈希集合|去重、快速判断存在性|
+|`TSparseArray`|无直接对应|稀疏数组|频繁增删、复用空洞|
+|`TDoubleLinkedList`|`std::list`|双向链表|节点增删|
+|`TQueue`|`std::queue`（接口近似）|UE 无锁链表队列|生产者消费者|
+|`TStaticArray`|`std::array`|固定大小数组|固定数量的数据|
+|`TBitArray`|`std::vector<bool>`（用途近似）|位压缩数组|大量布尔标记|
+|`TChunkedArray`|`std::deque`（部分特性近似）|分块存储|大量元素、减少整体搬迁|
 
 这里有三个重要区别：
 
 1. `TMap` 和 `std::unordered_map` 都是哈希容器，但内部存储元素的方式不同。
+    
 2. `TQueue` 和 `std::queue` 并不等价。`TQueue` 提供特定模式下的线程安全操作，而 `std::queue` 默认只是一个容器适配器，不保证线程安全。
+    
 3. `TChunkedArray` 和 `std::deque` 都涉及分段存储，但并不是可以直接互换的容器。
+    
 
 ### 1.2 最常用容器的时间复杂度
 
 下面的复杂度假设使用默认或典型实现，哈希查询为平均情况。
 
-| 操作       | TArray / vector | TMap / unordered_map | TSet / unordered_set | std::map |
-| -------- | --------------- | -------------------- | -------------------- | -------- |
-| 按下标访问    | O(1)            | 不适用                  | 不适用                  | 不适用      |
-| 按 Key 查找 | O(n)            | O(1) 平均              | O(1) 平均              | O(log n) |
-| 尾部添加     | O(1) 均摊         | —                    | —                    | —        |
-| 插入元素     | O(n) 中间插入       | O(1) 平均              | O(1) 平均              | O(log n) |
-| 删除指定元素   | O(n) 查找或移动      | O(1) 平均（已知 Key）      | O(1) 平均（已知 Key）      | O(log n) |
-| 遍历全部元素   | O(n)            | O(n) 通常              | O(n) 通常              | O(n)     |
+|操作|TArray / vector|TMap / unordered_map|TSet / unordered_set|std::map|
+|---|---|---|---|---|
+|按下标访问|O(1)|不适用|不适用|不适用|
+|按 Key 查找|O(n)|O(1) 平均|O(1) 平均|O(log n)|
+|尾部添加|O(1) 均摊|—|—|—|
+|插入元素|O(n) 中间插入|O(1) 平均|O(1) 平均|O(log n)|
+|删除指定元素|O(n) 查找或移动|O(1) 平均（已知 Key）|O(1) 平均（已知 Key）|O(log n)|
+|遍历全部元素|O(n)|O(n) 通常|O(n) 通常|O(n)|
 
 注意：`TArray::RemoveAtSwap` 在不触发缩容时，可以做到 O(1) 删除。`std::map` 底层通常是红黑树（Red-Black Tree，平衡二叉搜索树），而非哈希表。
 
@@ -72,9 +81,7 @@ Numbers.Add(30);
 
 其逻辑内存布局如下：
 
-TArray 内存结构示意
-
-结构为概念示意，并非保证实际对象成员排列与字节偏移。
+<img width="735" height="440" alt="image" src="https://github.com/user-attachments/assets/f7602d94-ab76-4a06-a204-21f9a6910e92" />
 
 可以把 `TArray` 理解为主要管理三个状态：
 
@@ -92,9 +99,13 @@ struct SimpleArray
 其中：
 
 - `Data`：指向元素内存的起始位置。
+    
 - `Num`：已经构造并纳入容器管理的元素数量。
+    
 - `Max`：当前容量，即不扩容时最多可存储的元素数量。
+    
 - `Max - Num`：未使用容量，UE 称为 Slack（冗余容量）。
+    
 
 对于 `std::vector`，常见标准库实现使用三个指针，分别表示起始、已用结束和已分配结束的位置。但 C++ 标准并未强制规定其内部必须使用三个指针。
 
@@ -111,45 +122,20 @@ Max = 4
 
 典型扩容流程：
 
-扩容前：容量已满
-
-10
-
-20
-
-30
-
-40
-
-申请更大的内存，并迁移已有元素
-
-扩容后：新容量示意为 8
-
-10
-
-20
-
-30
-
-40
-
-50
-
-空闲
-
-空闲
-
-空闲
-
-新容量为 8 仅用于说明扩容机制。UE 和不同 STL 实现的具体增长策略并不固定。
+<img width="739" height="292" alt="image" src="https://github.com/user-attachments/assets/a1a6abcc-f423-4b5e-831b-e295c1b1bac1" />
 
 扩容时可能执行：
 
 1. 计算新容量。
+    
 2. 申请足够大的连续内存。
+    
 3. 将已有元素迁移到新内存。
+    
 4. 在新位置构造新元素。
+    
 5. 释放旧存储空间。
+    
 
 需要特别注意，具体分配器也可能原地扩容，并非每次都一定发生地址变化。
 
@@ -157,7 +143,9 @@ Max = 4
 
 当容量按几何方式增长时，连续执行 n 次 `Add` 或 `push_back` 的总成本为 O(n)，因此：
 
-\\[ \boxed{\text{尾部插入的均摊时间复杂度}=O(1)} \\]
+$$
+\boxed{\text{尾部插入的均摊时间复杂度}=O(1)}
+$$
 
 这里的均摊（Amortized）是指把偶尔发生的昂贵扩容成本分摊到多次普通插入操作上。
 
@@ -169,11 +157,7 @@ Max = 4
 
 而 UE 的 `TArray` 采用以可平凡重定位（Trivially Relocatable）为核心的设计约定。对符合要求的元素，可以直接进行原始字节搬迁，而不逐个调用移动构造函数。Epic 官方文档明确指出了这一设计要求。
 
-[image](https://www.google.com/s2/favicons?domain=https://dev.epicgames.com\&sz=32)
-
 Epic Developer Community+1
-
-
 
 下面用简化伪代码说明区别：
 
@@ -219,20 +203,20 @@ struct FBadData
 
 ### 2.4 TArray 与 vector 的常用接口对照
 
-| 功能        | UE TArray        | STL vector        |
-| --------- | ---------------- | ----------------- |
-| 添加元素      | `Add()`          | `push_back()`     |
-| 原位构造      | `Emplace()`      | `emplace_back()`  |
-| 元素数量      | `Num()`          | `size()`          |
-| 容量        | `Max()`          | `capacity()`      |
-| 预分配容量     | `Reserve()`      | `reserve()`       |
-| 获取首地址     | `GetData()`      | `data()`          |
-| 下标访问      | `Array[i]`       | `Vector[i]`       |
-| 清理元素、保留容量 | `Reset()`        | `clear()`         |
-| 释放多余容量    | `Shrink()`       | `shrink_to_fit()` |
-| 删除指定下标    | `RemoveAt()`     | `erase()`         |
-| 无序快速删除    | `RemoveAtSwap()` | 手动 swap + pop     |
-| 排序        | `Sort()`         | `std::sort()`     |
+|功能|UE TArray|STL vector|
+|---|---|---|
+|添加元素|`Add()`|`push_back()`|
+|原位构造|`Emplace()`|`emplace_back()`|
+|元素数量|`Num()`|`size()`|
+|容量|`Max()`|`capacity()`|
+|预分配容量|`Reserve()`|`reserve()`|
+|获取首地址|`GetData()`|`data()`|
+|下标访问|`Array[i]`|`Vector[i]`|
+|清理元素、保留容量|`Reset()`|`clear()`|
+|释放多余容量|`Shrink()`|`shrink_to_fit()`|
+|删除指定下标|`RemoveAt()`|`erase()`|
+|无序快速删除|`RemoveAtSwap()`|手动 swap + pop|
+|排序|`Sort()`|`std::sort()`|
 
 特别注意，`std::vector::shrink_to_fit()` 只是请求缩容，不保证一定发生；`TArray::Shrink()` 的设计目标则是移除多余容量。
 
@@ -298,7 +282,9 @@ Numbers.RemoveAt(1, 1, EAllowShrinking::No);
 
 后面的元素需要整体向前移动，因此：
 
-\\[ T(n)=O(n) \\]
+$$
+T(n)=O(n)
+$$
 
 但游戏中很多集合不要求顺序，比如当前激活的敌人、待处理事件、临时碰撞对象等。
 
@@ -323,17 +309,15 @@ Numbers.RemoveAtSwap(1, 1, EAllowShrinking::No);
 
 不需要搬移整个后半段。
 
-\\[ \boxed{\text{RemoveAtSwap}=O(1)} \\]
+$$
+\boxed{\text{RemoveAtSwap}=O(1)}
+$$
 
 这里指删除单个已知位置的元素、且不触发内存缩容时的复杂度。
 
 Epic 文档也明确区分了 `RemoveAt` 和 `RemoveAtSwap` 的性能与顺序保证。
 
-[image](https://www.google.com/s2/favicons?domain=https://dev.epicgames.com\&sz=32)
-
 Epic Developer Community
-
-
 
 #### UE 战斗系统实例：移除失效目标
 
@@ -377,14 +361,14 @@ Array.Reserve(1000);
 
 关键规律：
 
-| 操作             | TArray / vector 的风险      |
-| -------------- | ------------------------ |
-| 扩容             | 所有元素指针、引用、迭代器失效          |
-| 中间插入           | 插入位置及其后的元素位置发生变化；扩容会影响全部 |
-| 中间删除           | 被删除位置及之后的元素引用可能不再有效      |
-| `RemoveAtSwap` | 删除位置与末尾元素的位置发生变化         |
-| `Reset`        | 元素被销毁，原有元素引用失效           |
-| `Shrink`       | 可能重新分配存储，指针可能失效          |
+|操作|TArray / vector 的风险|
+|---|---|
+|扩容|所有元素指针、引用、迭代器失效|
+|中间插入|插入位置及其后的元素位置发生变化；扩容会影响全部|
+|中间删除|被删除位置及之后的元素引用可能不再有效|
+|`RemoveAtSwap`|删除位置与末尾元素的位置发生变化|
+|`Reset`|元素被销毁，原有元素引用失效|
+|`Shrink`|可能重新分配存储，指针可能失效|
 
 特别注意：`TArray` 的下标不是天然稳定的对象 ID。
 
@@ -402,41 +386,16 @@ TArray<int32, TInlineAllocator<8>> Numbers;
 
 含义是：数组对象内部预留可以存储 8 个元素的空间。
 
-TInlineAllocator 的存储切换
-
-元素数量 ≤ 8
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-7
-
-8
-
-使用数组对象内部的内联存储
-
-元素数量超过 8
-
-内联存储
-
-堆上的更大连续存储区
-
-内联存储是数组对象自身的一部分；如果数组对象位于堆上，内联存储也位于该对象内部，并不一定在栈上。
+<img width="739" height="260" alt="image" src="https://github.com/user-attachments/assets/ed0d1d9f-f690-4537-9a27-90136b1a4d04" />
 
 优点：
 
 - 小数组通常不需要额外堆分配。
+    
 - 减少内存分配器调用。
+    
 - 对元素数量少、创建频繁的临时容器尤其有价值。
+    
 
 缺点：数组对象本身会变大，而且超过容量后仍需要申请堆内存。它不是对任何数组都更快。
 
@@ -458,23 +417,19 @@ void ProcessNearbyEnemies()
 
 ### 3.1 三种容器的核心区别
 
-| 属性         | UE TMap     | std::unordered_map | std::map    |
-| ---------- | ----------- | ------------------ | ----------- |
-| 主要结构       | 哈希表 + 稀疏数组  | 哈希表                | 平衡搜索树，通常红黑树 |
-| 查询复杂度      | O(1) 平均     | O(1) 平均            | O(log n)    |
-| 是否按 Key 排序 | 否           | 否                  | 是           |
-| 哈希冲突       | 需要处理        | 需要处理               | 无哈希冲突       |
-| 查找最坏复杂度    | O(n)        | O(n)               | O(log n)    |
-| 元素地址稳定性    | 增长时可能改变     | rehash 通常保持元素地址    | 插入通常保持元素地址  |
-| UE 反射支持    | 支持符合要求的属性类型 | 不直接支持              | 不直接支持       |
+|属性|UE TMap|std::unordered_map|std::map|
+|---|---|---|---|
+|主要结构|哈希表 + 稀疏数组|哈希表|平衡搜索树，通常红黑树|
+|查询复杂度|O(1) 平均|O(1) 平均|O(log n)|
+|是否按 Key 排序|否|否|是|
+|哈希冲突|需要处理|需要处理|无哈希冲突|
+|查找最坏复杂度|O(n)|O(n)|O(log n)|
+|元素地址稳定性|增长时可能改变|rehash 通常保持元素地址|插入通常保持元素地址|
+|UE 反射支持|支持符合要求的属性类型|不直接支持|不直接支持|
 
 `std::unordered_map` 在主流标准库里通常是节点式哈希结构；`TMap` 则采用 `TSet` 作为基础，元素存储涉及 `TSparseArray`（稀疏数组）。
 
-[image](https://www.google.com/s2/favicons?domain=https://dev.epicgames.com\&sz=32)
-
 Epic Developer Community
-
-
 
 ### 3.2 哈希表的工作原理
 
@@ -490,11 +445,15 @@ SkillDamage.Add(103, 1200);
 
 哈希表首先根据 Key 计算哈希值：
 
-\\[ H=\operatorname{Hash}(Key) \\]
+$$
+H=\operatorname{Hash}(Key)
+$$
 
 然后把哈希值映射到某个 Bucket（桶）：
 
-\\[ BucketIndex=H\bmod BucketCount \\]
+$$
+BucketIndex=H\bmod BucketCount
+$$
 
 实际实现也可能采用位掩码等映射方式，并不一定直接使用取模。
 
@@ -518,7 +477,9 @@ KeyA == KeyB;
 
 核心要求：
 
-\\[ A==B\implies Hash(A)==Hash(B) \\]
+$$
+A==B\implies Hash(A)==Hash(B)
+$$
 
 如果两个相等的 Key 被计算出不同的哈希值，容器查询的正确性就可能被破坏。
 
@@ -526,11 +487,15 @@ KeyA == KeyB;
 
 正常情况下，哈希函数分布较均匀，每个桶内只有少量元素：
 
-\\[ T\_{\text{Find}}=O(1)\text{ 平均} \\]
+$$
+T_{\text{Find}}=O(1)\text{ 平均}
+$$
 
 如果大量不同 Key 落入同一桶，就可能需要连续比较很多元素：
 
-\\[ T\_{\text{Find}}=O(n)\text{ 最坏} \\]
+$$
+T_{\text{Find}}=O(n)\text{ 最坏}
+$$
 
 影响性能的主要因素包括哈希函数质量、Load Factor（负载因子）、桶的数量和 Key 比较成本。
 
@@ -614,19 +579,15 @@ SkillDamage.Remove(102);
 
 UE 中很容易混淆的三个接口：
 
-| 接口               | Key 不存在时   | 返回           |
-| ---------------- | ---------- | ------------ |
-| `Find(Key)`      | 返回 nullptr | 指向 Value 的指针 |
-| `FindRef(Key)`   | 返回默认值，不插入  | Value 的副本    |
-| `FindOrAdd(Key)` | 插入默认 Value | Value 的引用    |
+|接口|Key 不存在时|返回|
+|---|---|---|
+|`Find(Key)`|返回 nullptr|指向 Value 的指针|
+|`FindRef(Key)`|返回默认值，不插入|Value 的副本|
+|`FindOrAdd(Key)`|插入默认 Value|Value 的引用|
 
 尤其是 `FindRef`，虽然名字带 `Ref`，实际返回的是值，而不是引用。
 
-[image](https://www.google.com/s2/favicons?domain=https://dev.epicgames.com\&sz=32)
-
 Epic Developer Community
-
-
 
 另一个 UE 与 STL 的重要差异：
 
@@ -691,8 +652,11 @@ int A = Map[100];
 但 `std::map` 的优势不仅是复杂度，还有：
 
 - Key 自动保持排序。
+    
 - 支持 `lower_bound`、`upper_bound` 和范围查询。
+    
 - 插入通常不影响其他节点的迭代器、引用和指针。
+    
 
 代价是每个元素需要节点元数据、动态分配，并且指针跳转较多，缓存局部性一般不如连续数组。
 
@@ -708,20 +672,16 @@ TSortedMap<int32, FString> SortedMap;
 
 Epic 文档说明，`TSortedMap` 使用 按 Key 排序的 `TArray<TPair<Key, Value>>` 实现。
 
-[image](https://www.google.com/s2/favicons?domain=https://dev.epicgames.com\&sz=32)
-
 Epic Developer Community
-
-
 
 因此：
 
-| 操作 | TSortedMap      |
-| -- | --------------- |
-| 查找 | O(log n)，二分查找   |
-| 添加 | O(n)，可能需要移动后续元素 |
-| 删除 | O(n)，可能需要填补空位   |
-| 遍历 | 按 Key 排序，局部性较好  |
+|操作|TSortedMap|
+|---|---|
+|查找|O(log n)，二分查找|
+|添加|O(n)，可能需要移动后续元素|
+|删除|O(n)，可能需要填补空位|
+|遍历|按 Key 排序，局部性较好|
 
 小型、读多写少的映射表中，`TSortedMap` 可能比 `TMap` 更省内存、更快。元素数量增加或频繁修改时，结果则取决于实际负载。
 
@@ -777,13 +737,16 @@ if (!HitIds.Contains(ActorId))
 
 平均查找复杂度 O(1)。
 
-但是要注意：如果元素只有 4\~8 个，TArray 依然可能更快。
+但是要注意：如果元素只有 4~8 个，TArray 依然可能更快。
 
 原因不是算法复杂度错了，而是：
 
 1. `TArray` 存储连续，CPU 缓存友好。
+    
 2. 小规模数据线性遍历只需要极少次比较。
+    
 3. `TSet` 需要计算哈希、访问桶、进行相等比较，还要维护额外元数据。
+    
 
 因此，游戏开发不能简单地理解为“哈希容器一定比数组快”。
 
@@ -877,49 +840,9 @@ SkillLevels.Add(Key, 5);
 
 从概念上看，`TSparseArray` 使用元素槽位存储区和 `TBitArray`（位数组）来标记有效槽位。
 
-稀疏数组的槽位与占用位
-
-A
-
-0
-
-空
-
-1
-
-C
-
-2
-
-D
-
-3
-
-空
-
-4
-
-AllocationFlags（分配标记）
-
-1
-
-0
-
-1
-
-1
-
-0
-
-1 = 槽位有效；0 = 空闲。实际还涉及空闲槽位管理信息。
+<img width="736" height="207" alt="image" src="https://github.com/user-attachments/assets/ae5c08c2-c0b9-433e-a538-a2545d0badf7" />
 
 Epic 的 API 文档明确提到它使用 `TArray` 存储槽位，并用 `TBitArray` 记录哪些元素位置已分配。
-
-[image](https://www.google.com/s2/favicons?domain=https://dev.epicgames.com\&sz=32)
-
-Epic Developer Community
-
-
 
 基本操作：
 
@@ -943,12 +866,12 @@ int32 IndexD = Values.Add(400);
 
 ### 5.3 TSparseArray 的优缺点
 
-| 优点              | 缺点            |
-| --------------- | ------------- |
-| 删除指定有效槽位通常 O(1) | 不保证所有逻辑元素连续   |
-| 删除一般不改变其他元素的索引  | 需要额外位图与空闲管理信息 |
-| 可以复用删除产生的空槽     | 有效元素稀疏时遍历效率下降 |
-| 适合索引式对象管理       | 扩容可能改变元素地址    |
+|优点|缺点|
+|---|---|
+|删除指定有效槽位通常 O(1)|不保证所有逻辑元素连续|
+|删除一般不改变其他元素的索引|需要额外位图与空闲管理信息|
+|可以复用删除产生的空槽|有效元素稀疏时遍历效率下降|
+|适合索引式对象管理|扩容可能改变元素地址|
 
 最重要的两个区别：
 
@@ -1038,13 +961,13 @@ A ⇄ C
 
 但如果需要先搜索 B，查找过程通常是 O(n)。
 
-| 操作     | 链表        | 连续数组              |
-| ------ | --------- | ----------------- |
-| 按下标访问  | O(n)      | O(1)              |
-| 已知节点删除 | O(1)      | O(n)，无序交换删除可 O(1) |
-| 查找指定值  | O(n)      | O(n)              |
-| 顺序遍历   | 缓存局部性较差   | 缓存局部性较好           |
-| 额外内存   | 节点指针和分配开销 | 预留容量的开销           |
+|操作|链表|连续数组|
+|---|---|---|
+|按下标访问|O(n)|O(1)|
+|已知节点删除|O(1)|O(n)，无序交换删除可 O(1)|
+|查找指定值|O(n)|O(n)|
+|顺序遍历|缓存局部性较差|缓存局部性较好|
+|额外内存|节点指针和分配开销|预留容量的开销|
 
 为什么链表插入删除快，但实际游戏开发里经常不如 `TArray`？
 
@@ -1070,22 +993,18 @@ A ⇄ C
 
 与 `std::vector` 对比：
 
-| 特性                  | vector  | deque |
-| ------------------- | ------- | ----- |
-| 整体连续存储              | 是       | 否     |
-| 随机访问                | O(1)    | O(1)  |
-| 尾部插入                | O(1) 均摊 | O(1)  |
-| 头部插入                | O(n)    | O(1)  |
-| 迭代缓存友好性             | 通常更好    | 分段存储  |
-| 提供 `data()` 获取整体连续区 | 是       | 否     |
+|特性|vector|deque|
+|---|---|---|
+|整体连续存储|是|否|
+|随机访问|O(1)|O(1)|
+|尾部插入|O(1) 均摊|O(1)|
+|头部插入|O(n)|O(1)|
+|迭代缓存友好性|通常更好|分段存储|
+|提供 `data()` 获取整体连续区|是|否|
 
 UE 的 `TChunkedArray` 也采用分块分配的设计，但其主要目的包括避免申请巨大连续内存时受到碎片化影响，它不应被理解成与 `std::deque` 完全相同。
 
-[image](https://www.google.com/s2/favicons?domain=https://dev.epicgames.com\&sz=32)
-
 Epic Developer Community
-
-
 
 ### 6.3 TQueue 与 std::queue：队列
 
@@ -1109,17 +1028,13 @@ Tasks.pop();
 
 UE 的 `TQueue` 则是基于链表实现的无界队列，提供不同并发模式。Epic 的文档明确介绍了 MPSC 和 SPSC 模式，以及用于多生产者入队的原子 CAS（Compare-And-Swap，比较并交换）操作。
 
-[image](https://www.google.com/s2/favicons?domain=https://dev.epicgames.com\&sz=32)
-
 Epic Developer Community
 
-
-
-| TQueue 模式                    | 含义        | 适合场景            |
-| ---------------------------- | --------- | --------------- |
-| `EQueueMode::Spsc`           | 单生产者、单消费者 | 一个工作线程向游戏线程发送数据 |
-| `EQueueMode::Mpsc`           | 多生产者、单消费者 | 多个工作线程向游戏线程发送消息 |
-| `EQueueMode::SingleThreaded` | 单线程       | 普通单线程队列         |
+|TQueue 模式|含义|适合场景|
+|---|---|---|
+|`EQueueMode::Spsc`|单生产者、单消费者|一个工作线程向游戏线程发送数据|
+|`EQueueMode::Mpsc`|多生产者、单消费者|多个工作线程向游戏线程发送消息|
+|`EQueueMode::SingleThreaded`|单线程|普通单线程队列|
 
 代码示例：
 
@@ -1146,9 +1061,13 @@ while (PendingEvents.Dequeue(EventId))
 需要注意：
 
 - 无锁不等于零开销，链表节点仍涉及内存管理。
+    
 - MPSC 不代表多个线程能同时安全出队。
+    
 - 队列无限增长可能造成内存压力。
+    
 - 不要仅因为数据放进线程安全队列，就认为数据里面的 UObject 可以被任何线程随意访问。
+    
 
 对于高频、固定容量的数据流，还可以了解 UE 的 `TCircularQueue`（环形队列）。它使用环形数组思想，能够减少链表式队列中频繁的节点分配开销。
 
@@ -1162,7 +1081,9 @@ while (PendingEvents.Dequeue(EventId))
 
 理论上仅考虑数据位：
 
-\\[ 10000\text{ bits}=1250\text{ bytes} \\]
+$$
+10000\text{ bits}=1250\text{ bytes}
+$$
 
 与每个元素使用 1 字节相比，数据部分可以节省约 87.5% 的空间。
 
@@ -1184,12 +1105,6 @@ if (VisibilityFlags[10])
 ```
 
 `TBitArray` 的元素访问使用位引用代理（Bit Reference Proxy），并不是普通 `bool&`。它适用于大量状态标记、位掩码和需要进行位运算的场景。
-
-[image](https://www.google.com/s2/favicons?domain=https://dev.epicgames.com\&sz=32)
-
-Epic Developer Community
-
-
 
 `std::vector<bool>` 也常采用位压缩特化，但它具有不同于普通 `std::vector<T>` 的引用与迭代语义，使用时需要格外注意。
 
@@ -1270,11 +1185,7 @@ public:
 
 只要拥有该属性的对象本身能够被 GC 追踪到，这些被正确反射的强引用就能参与 GC 引用遍历。
 
-[image](https://www.google.com/s2/favicons?domain=https://dev.epicgames.com\&sz=32)
-
 Epic Developer Community
-
-
 
 但下面的情况不同：
 
@@ -1305,7 +1216,9 @@ TArray<TWeakObjectPtr<AActor>> TargetActors;
 它有两个重要特点：
 
 1. 不会因为这个弱引用而保持目标 UObject 存活。
+    
 2. 当目标对象不再有效时，可以通过 `IsValid()` 检查。
+    
 
 ```
 for (const TWeakObjectPtr<AActor>& Target : TargetActors)
@@ -1352,15 +1265,15 @@ TArray<TSharedPtr<FMyNativeData>> Data;
 
 因此：
 
-| 元素类型                      | 容器释放后的效果                |
-| ------------------------- | ----------------------- |
-| `int32`                   | 释放存储                    |
-| `FString`                 | 销毁字符串对象                 |
-| `FMyStruct`               | 销毁结构体对象                 |
-| `UObject*`                | 指针元素消失，不直接删除 UObject    |
-| `TObjectPtr<UObject>`     | 释放引用，不直接 delete UObject |
-| `TWeakObjectPtr<UObject>` | 弱引用消失                   |
-| `TSharedPtr<FNativeData>` | 共享引用计数减少                |
+|元素类型|容器释放后的效果|
+|---|---|
+|`int32`|释放存储|
+|`FString`|销毁字符串对象|
+|`FMyStruct`|销毁结构体对象|
+|`UObject*`|指针元素消失，不直接删除 UObject|
+|`TObjectPtr<UObject>`|释放引用，不直接 delete UObject|
+|`TWeakObjectPtr<UObject>`|弱引用消失|
+|`TSharedPtr<FNativeData>`|共享引用计数减少|
 
 ## 八、CPU Cache：为什么 TArray 经常是游戏性能优化的首选？
 
@@ -1368,27 +1281,7 @@ TArray<TSharedPtr<FMyNativeData>> Data;
 
 有两种内存布局。
 
-连续存储与分散节点访问
-
-TArray：连续元素，更容易顺序访问与预取
-
-E1
-
-E2
-
-E3
-
-E4
-
-E5
-
-E6
-
-顺序扫描，较好的空间局部性
-
-链式结构：节点可能位于不同内存区域
-
-图中表示访问位置不连续，不代表真实物理内存地址或固定延迟。
+<img width="739" height="430" alt="image" src="https://github.com/user-attachments/assets/83eab251-a388-4478-994c-8cb7d20851d4" />
 
 ### 8.1 CPU Cache Line（缓存行）
 
@@ -1411,8 +1304,11 @@ struct FParticleData
 顺序遍历时可以利用：
 
 - Spatial Locality（空间局部性）：相邻数据更可能被访问。
+    
 - Temporal Locality（时间局部性）：最近使用过的数据更可能再次被访问。
+    
 - Hardware Prefetching（硬件预取）：CPU 提前加载后续可能访问的数据。
+    
 
 如果使用链表，CPU 需要读取当前节点中的下一个地址，再去访问其他内存位置。频繁的指针追踪可能导致更多缓存未命中。
 
@@ -1435,10 +1331,10 @@ struct FEnemy
 
 这又涉及 AoS 与 SoA。
 
-| 布局  | 全称                         | 结构                   |
-| --- | -------------------------- | -------------------- |
-| AoS | Array of Structures（结构体数组） | `TArray<FEnemy>`     |
-| SoA | Structure of Arrays（数组结构）  | 分别保存 HP、Position 等字段 |
+|布局|全称|结构|
+|---|---|---|
+|AoS|Array of Structures（结构体数组）|`TArray<FEnemy>`|
+|SoA|Structure of Arrays（数组结构）|分别保存 HP、Position 等字段|
 
 SoA 示例：
 
@@ -1470,18 +1366,18 @@ CPU 只需要重点读取连续的 HP 数据。
 
 下面结合实际游戏客户端开发给出推荐。
 
-| 实际场景                  | 推荐容器                          | 原因            |
-| --------------------- | ----------------------------- | ------------- |
-| 当前角色拥有的技能列表           | `TArray`                      | 需要遍历、可能需要顺序   |
-| 根据技能 ID 查找技能数据        | `TMap`                        | Key 快速查询      |
-| 已命中的 Actor 集合         | `TSet`                        | 快速去重          |
-| 每帧临时收集少量碰撞目标          | `TArray` + `TInlineAllocator` | 减少小数组堆分配      |
-| 大量技能实例、频繁创建销毁         | `TSparseArray` 或专用对象池         | 复用槽位、减少搬移     |
-| 需要排序的小型配置表            | `TSortedMap`                  | 连续存储、按 Key 排序 |
-| 异步线程向 GameThread 发送消息 | `TQueue`                      | 明确的生产者消费者模式   |
-| 大量布尔标记                | `TBitArray`                   | 位压缩存储         |
-| 小型、固定数量的元素            | `TStaticArray` 或 `std::array` | 不需要动态扩容       |
-| 一批只读的连续元素传参           | `TArrayView`                  | 避免复制容器数据      |
+|实际场景|推荐容器|原因|
+|---|---|---|
+|当前角色拥有的技能列表|`TArray`|需要遍历、可能需要顺序|
+|根据技能 ID 查找技能数据|`TMap`|Key 快速查询|
+|已命中的 Actor 集合|`TSet`|快速去重|
+|每帧临时收集少量碰撞目标|`TArray` + `TInlineAllocator`|减少小数组堆分配|
+|大量技能实例、频繁创建销毁|`TSparseArray` 或专用对象池|复用槽位、减少搬移|
+|需要排序的小型配置表|`TSortedMap`|连续存储、按 Key 排序|
+|异步线程向 GameThread 发送消息|`TQueue`|明确的生产者消费者模式|
+|大量布尔标记|`TBitArray`|位压缩存储|
+|小型、固定数量的元素|`TStaticArray` 或 `std::array`|不需要动态扩容|
+|一批只读的连续元素传参|`TArrayView`|避免复制容器数据|
 
 `TArrayView` 特别值得了解，它相当于一个不拥有元素存储的数组视图：
 
@@ -1571,47 +1467,59 @@ TMap<int32, int32> EnemyIdToIndex;
 
 点击题目展开参考答案
 
-1\. TArray 与 std::vector 的底层区别？
+1. TArray 与 std::vector 的底层区别？
 
 都是连续动态数组。TArray 使用 UE 的分配器体系，并采用元素可平凡重定位的设计约定；std::vector 遵循标准 C++ 对象移动、复制和生命周期规则。两者都存在扩容导致元素地址变化的问题。
 
-2\. 为什么 vector 和 TArray 的尾部插入是 O(1)？
+2. 为什么 vector 和 TArray 的尾部插入是 O(1)？
 
-3\. TArray::RemoveAt 和 RemoveAtSwap 有什么区别？
+准确地说是均摊 O(1)。通常不需要扩容时直接构造尾部元素；容量不足时进行几何扩容。单次扩容 O(n)，但多次插入的总搬迁成本仍为 O(n)。
 
-4\. TMap 和 std::unordered_map 的实现区别？
+3. TArray::RemoveAt 和 RemoveAtSwap 有什么区别？
 
-5\. 哈希表为什么是平均 O(1)，而不是一定 O(1)？
+RemoveAt 保持元素顺序，需要移动后续元素，通常 O(n)；RemoveAtSwap 不保证顺序，删除单个已知位置且不缩容时可以 O(1)。
 
-6\. TSet 和 TArray，哪个 Contains 更快？
+4. TMap 和 std::unordered_map 的实现区别？
 
-7\. std::map 和 std::unordered_map 怎么选？
+二者都基于哈希查找，但 UE TMap 以 TSet 和稀疏数组存储元素，增长可能重定位元素；主流 std::unordered_map 是节点式实现，rehash 会使迭代器失效，但不会仅因 rehash 使元素指针或引用失效。
 
-8\. TSparseArray 如何做到 O(1) 删除？
+5. 哈希表为什么是平均 O(1)，而不是一定 O(1)？
 
-9\. TArray\<TObjectPtr\<UObject>> 就一定能阻止 GC 吗？
+哈希冲突会让多个 Key 映射到同一个桶。查找时必须进一步比较 Key；当碰撞严重时，查找可能退化为 O(n)。
 
-10\. 为什么实际开发中常常优先使用 TArray，而不是链表？
+6. TSet 和 TArray，哪个 Contains 更快？
 
-11\. TQueue 一定是线程安全吗？
+TSet 平均 O(1)，TArray 为 O(n)。但小数据量下，TArray 的连续内存、低元数据开销以及无需哈希计算等特点，可能使它实际更快。
 
-12\. 什么情况下需要 TInlineAllocator？
+7. std::map 和 std::unordered_map 怎么选？
+
+需要排序、范围查询、O(log n) 的最坏情况保证时用 std::map；只需要按 Key 快速查找，且不要求顺序时，优先考虑 std::unordered_map。
+
+8. TSparseArray 如何做到 O(1) 删除？
+
+删除时不移动后面的元素，而是释放指定槽位并记录为空闲。后续插入可以复用空洞。不过元素扩容仍可能改变地址，槽位索引也可能被复用。
+
+9. TArray<TObjectPtr<UObject>> 就一定能阻止 GC 吗？
+
+不一定。必须让 GC 的引用收集机制能够追踪到这些引用。例如存储在可达 UObject 上的 UPROPERTY 容器中。普通未注册的原生容器不会仅靠其类型自动成为 GC 强引用来源。
+
+10. 为什么实际开发中常常优先使用 TArray，而不是链表？
+
+TArray 的连续存储具有更好的缓存局部性、较少的节点元数据和更简单的遍历方式。链表虽然已知节点增删为 O(1)，但链式访问的缓存未命中与分配成本可能更高。
+
+11. TQueue 一定是线程安全吗？
+
+不是。需要看 EQueueMode。Spsc 支持一个生产者和一个消费者，Mpsc 支持多个生产者与一个消费者，SingleThreaded 不提供并发安全保证。
+
+12. 什么情况下需要 TInlineAllocator？
+
+当容器的元素数量通常很少，并且创建频繁时，内联空间可减少堆分配。但容器对象本身会变大，超过内联容量后仍然需要额外分配。
 
 ## 十一、底层源码应该重点看哪些文件？
 
-如果你正在阅读 UE 源码，建议按照下面的顺序阅读。
+如果你正在阅读 UE 源码，建议按照下面的顺序阅读:
 
-| 头文件                                        | 重点研究内容              |
-| ------------------------------------------ | ------------------- |
-| `Containers/Array.h`                       | TArray 添加、移除、扩容、重定位 |
-| `Containers/ContainerAllocationPolicies.h` | Allocator、内联内存、容量管理 |
-| `Containers/SparseArray.h`                 | 稀疏数组、空洞、空闲槽位        |
-| `Containers/Set.h`                         | 哈希桶、冲突链、元素 ID       |
-| `Containers/Map.h`                         | TMap 与 TSet 的关系     |
-| `Containers/BitArray.h`                    | 位数组与有效位管理           |
-| `Containers/Queue.h`                       | 无锁队列、原子操作           |
-| `Containers/SortedMap.h`                   | 排序数组实现映射            |
-| `HAL/UnrealMemory.h`                       | FMemory 内存分配接口      |
+<img width="751" height="371" alt="局部截取_20261116_222415" src="https://github.com/user-attachments/assets/b59bc481-a8c7-4fb8-9ed0-87363f8e1a0d" />
 
 特别推荐按下面这条关系去理解：
 
