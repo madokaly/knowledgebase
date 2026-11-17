@@ -202,7 +202,7 @@ MyIsSame<int, float>
 
 于是使用主模板，得到 `false`。
 
-![[局部截取_20261118_011300.png]]
+<img width="742" height="291" alt="image" src="https://github.com/user-attachments/assets/c7e3a20e-ff13-47f4-bec2-c1b94f58b110" />
 
 这就实现了最简单的 Type Traits。
 
@@ -710,7 +710,7 @@ MyEnableIf_t<false, int>
 
 无法得到对应类型。
 
-![[局部截取_20261118_011347.png]]
+<img width="744" height="219" alt="image" src="https://github.com/user-attachments/assets/c12512e9-1278-4f99-b921-bcec8aba6a16" />
 
 这里有个关键：
 
@@ -844,7 +844,7 @@ std::enable_if_t<false, void>
 
 最终选择整数版本。
 
-![[局部截取_20261118_011413.png]]
+<img width="738" height="351" alt="image" src="https://github.com/user-attachments/assets/42098615-c5b9-4d63-a381-fd75e1147763" />
 
 这就是 SFINAE 的核心作用。
 
@@ -2077,7 +2077,7 @@ int main()
 
 这里包含了整个模板元编程过程：
 
-![[局部截取_20261118_011507.png]]
+<img width="740" height="476" alt="image" src="https://github.com/user-attachments/assets/a9b15aa7-e85b-41b4-b91b-753ca50b95ba" />
 
 如果调用：
 
@@ -2119,7 +2119,7 @@ PrintHealth(W);
 
 可以把它们看成 C++ 编译期类型处理的一条完整链路。
 
-![[局部截取_20261118_011522.png]]
+<img width="741" height="432" alt="image" src="https://github.com/user-attachments/assets/545bd781-1f66-4463-81b5-cb62f0692f26" />
 
 上图是知识的学习关系，不是编译器固定执行的阶段顺序。它们有不同职责，也经常组合使用。
 
