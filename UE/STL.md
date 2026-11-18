@@ -446,7 +446,7 @@ SkillDamage.Add(103, 1200);
 哈希表首先根据 Key 计算哈希值：
 
 $$
-H = \operatorname{Hash}(\text{Key})
+H = \text{Hash}(\text{Key})
 $$
 
 然后把哈希值映射到某个 Bucket（桶）：
