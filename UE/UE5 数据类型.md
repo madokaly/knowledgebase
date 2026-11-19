@@ -173,7 +173,7 @@ const TCHAR* Message = TEXT("Hello Unreal");
 
 这是 UE 必须熟练掌握的内容。
 
-![[局部截取_20261120_004156.png]]
+<img width="738" height="141" alt="image" src="https://github.com/user-attachments/assets/6d245d03-4575-4a6c-8fed-c3017526cdb6" />
 
 ### 3.1 FString：可修改的字符串
 
@@ -253,7 +253,7 @@ FName ParameterName = TEXT("BaseColor");
 
 UE 维护一个全局的名字池（Name Pool），相同的名字内容可以复用名字池中的记录。
 
-![[局部截取_20261120_004216.png]]
+<img width="733" height="432" alt="image" src="https://github.com/user-attachments/assets/99a1906d-e8a4-4c16-b087-65debdf1cd2b" />
 
 核心特点：
 
@@ -395,7 +395,7 @@ $$
 \mathbf{V}=(X,Y,Z)
 $$
 
-![[局部截取_20261120_004240.png]]
+<img width="739" height="468" alt="image" src="https://github.com/user-attachments/assets/59993843-0b28-4b6a-bce5-4a1cd55516d0" />
 
 常用函数：
 
@@ -754,7 +754,7 @@ Epic Developer Community+1
 
 UE 最核心的三个容器：
 
-![[局部截取_20261120_004329.png]]
+<img width="743" height="338" alt="image" src="https://github.com/user-attachments/assets/64bce453-7274-4a9e-a20a-9e19e4672154" />
 
 ### 7.1 TArray：动态数组
 
@@ -1129,7 +1129,7 @@ TSoftObjectPtr<UNiagaraSystem> SkillEffect;
 
 ### 硬引用与软引用的区别
 
-![[局部截取_20261120_004401.png]]
+<img width="742" height="249" alt="image" src="https://github.com/user-attachments/assets/4aca9d88-0bc9-494a-bdb9-345fd1b33b08" />
 
 例如角色拥有 100 个技能，而当前只装备了 5 个。
 
