@@ -41,7 +41,7 @@ UE 的 GC 并不简单地判断某个对象有没有指针指向它，而是判�
 
 例如有以下对象关系：
 
-![[局部截取_20261123_223906.png]]
+<img width="739" height="562" alt="image" src="https://github.com/user-attachments/assets/4184ad31-3047-42f6-ae00-78c658e9bb83" />
 
 假设：
 
@@ -1006,7 +1006,7 @@ UE 是实时游戏引擎，对 GC 的要求不仅是正确释放内存，还要�
 
 传统可达性分析如果集中在单帧执行，就可能形成明显的 CPU 耗时峰值。
 
-![[局部截取_20261123_224250.png]]
+<img width="738" height="452" alt="image" src="https://github.com/user-attachments/assets/a136cef8-6c54-43c7-a14c-eb60919a3bbe" />
 
 ### 2. GC Cluster（对象群集）
 
