@@ -69,7 +69,7 @@ else
 
 而效用 AI 会综合考虑当前所有可用行为，并分别计算分数。
 
-![[局部截取_20261125_000837.png]]
+<img width="740" height="366" alt="image" src="https://github.com/user-attachments/assets/d842e15b-2cef-4a8f-8322-8a6ac96636e5" />
 
 当玩家停止攻击后，闪避评分降低，恢复生命可能成为评分最高的行为。
 
@@ -95,7 +95,7 @@ else
 
 ## **2.1 整体运行流程**
 
-![[局部截取_20261125_000901.png]]
+<img width="740" height="1024" alt="image" src="https://github.com/user-attachments/assets/fbba7979-6368-472c-b789-4eb3af4b2d7c" />
 
 # **三、Consideration（考量因素）**
 
@@ -193,7 +193,7 @@ $$
 
 ## **4.1 常用响应曲线**
 
-![[局部截取_20261125_000947.png]]
+<img width="739" height="1090" alt="image" src="https://github.com/user-attachments/assets/bbf47ffe-c4bc-4fc6-bb3b-b187065fda35" />
 
 这些曲线可以用来表达不同的 AI 行为性格和决策倾向。响应曲线的选择直接影响最终行为表现。
 
@@ -299,8 +299,7 @@ $$
     
 - 玩家距离太远：无法有效命中。
     
-
-![[局部截取_20261125_001128.png]]
+<img width="743" height="834" alt="image" src="https://github.com/user-attachments/assets/81e9e743-ab88-4e93-9d9d-afc0d376535a" />
 
 在 UE 中，可以直接使用 `UCurveFloat` 曲线资产来配置响应曲线，让策划调整技能的评分倾向，而不需要修改 C++ 代码。
 
@@ -387,7 +386,7 @@ $$
 
 假设每个考量因素评分都是 0.8。
 
-![[局部截取_20261125_001232.png]]
+<img width="780" height="445" alt="image" src="https://github.com/user-attachments/assets/9d0cd81d-d2f3-43c2-81fb-4895b285d50f" />
 
 如果普通攻击只有两个考量因素，而重攻击拥有八个考量因素，那么重攻击可能长期处于评分劣势。
 
@@ -628,7 +627,7 @@ $$
 
 例如：
 
-![[局部截取_20261125_001355.png]]
+<img width="737" height="251" alt="image" src="https://github.com/user-attachments/assets/5ff08b3b-9596-47d3-879e-bde91d668145" />
 
 这种方式可以增加 Boss 的行为多样性，但有可能选中评分较低的行为。
 
@@ -660,7 +659,7 @@ $$
 
 其中 T 为 Temperature（温度参数），用于控制随机程度。
 
-![[局部截取_20261125_001422.png]]
+<img width="742" height="359" alt="image" src="https://github.com/user-attachments/assets/6bb24d60-738f-4c3b-a5cc-1649b87047d0" />
 
 温度越低，越倾向于最高分行为；温度越高，行为选择越接近均匀随机。
 
@@ -710,7 +709,7 @@ if (NewScore > CurrentScore + SwitchThreshold)
 }
 ```
 
-![[局部截取_20261125_001438.png]]
+<img width="740" height="482" alt="image" src="https://github.com/user-attachments/assets/07a38ecf-f861-41eb-8bd6-7252fa028ab7" />
 
 例如当前行为评分为 0.8，切换阈值为 0.15，那么新行为需要超过 0.95 才会发生切换。
 
@@ -721,7 +720,8 @@ if (NewScore > CurrentScore + SwitchThreshold)
 一旦行为开始执行，在特定阶段内不允许普通决策打断。
 
 例如重攻击技能：
-![[局部截取_20261125_001454.png]]
+
+<img width="742" height="302" alt="image" src="https://github.com/user-attachments/assets/67003f83-77d3-47b0-99c3-afcf1b5080f9" />
 
 这是一个示例取消规则，实际项目中需要针对每个技能单独配置。
 
@@ -799,7 +799,7 @@ FinalScore *= Penalty;
 
 下面是一个简化的效用 AI 模型，可以调整环境数据，观察 Boss 行为如何变化。
 
-![[局部截取_20261125_001606.png]]
+<img width="741" height="1071" alt="image" src="https://github.com/user-attachments/assets/4506bb7a-6a4a-4383-87a2-7f9e3c5bdfd1" />
 
 ## **9.2 效用 AI 不应该控制所有战斗逻辑**
 
@@ -809,7 +809,7 @@ FinalScore *= Penalty;
 
 这种确定性的流程不应该让效用 AI 来决定是否执行。
 
-![[局部截取_20261125_001645.png]]
+<img width="746" height="738" alt="image" src="https://github.com/user-attachments/assets/6e65e8a0-72d0-4128-8129-0d1a7a3173d3" />
 
 这样每一层都有明确的职责：
 
@@ -1099,10 +1099,12 @@ Behavior Tree（行为树）本身的普通 Selector（选择节点），通常�
 
 ## **11.1 普通行为树**
 
-![[局部截取_20261125_001713.png]]
+<img width="745" height="374" alt="image" src="https://github.com/user-attachments/assets/655696ef-cab2-4f2d-a86c-cbe43d3ebba3" />
+
 ## **11.2 Utility Selector（效用选择节点）**
 
-![[局部截取_20261125_001727.png]]
+<img width="741" height="372" alt="image" src="https://github.com/user-attachments/assets/061d9cf9-53b1-4a93-a4df-2db0141462dc" />
+
 图中的 Utility Selector 是概念上的自定义节点，并非 UE 普通行为树的内置 Selector 节点。
 
 ## **11.3 UE 行为树常用结合方式**
@@ -1351,7 +1353,7 @@ return CalculateUtilityScore();
 
 避免所有 AI 在同一帧进行决策。
 
-![[局部截取_20261125_001831.png]]
+<img width="742" height="624" alt="image" src="https://github.com/user-attachments/assets/4b2baa42-c3ef-4300-8f32-6b9feac7f44e" />
 
 ## **14.6 AI LOD（AI 分级更新）**
 
