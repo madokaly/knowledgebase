@@ -102,7 +102,7 @@ $$
 
 如果当前点比 Shadow Map 中记录的最近表面更远，说明它可能被其他物体遮挡。
 
-![[局部截取_20261124_235753.png]]
+<img width="741" height="413" alt="image" src="https://github.com/user-attachments/assets/272faeef-96d5-4455-bc28-0987dc87ad16" />
 
 ### **3. 主要性能消耗**
 
@@ -175,7 +175,7 @@ CSM 的核心思想就是：
 
 ### **2. CSM 原理示意**
 
-![[局部截取_20261125_000006.png]]
+<img width="904" height="744" alt="image" src="https://github.com/user-attachments/assets/c2845151-f094-49d4-805f-163720dc5a0e" />
 
 例如将摄像机前方 200 米划分成三个级联：
 
@@ -363,7 +363,7 @@ PCF 不只采样一个 Texel，而是采样周围多个 Texel。
 
 例如，对周围 3×3 个采样点进行深度测试：
 
-![[局部截取_20261125_000138.png]]
+<img width="744" height="194" alt="image" src="https://github.com/user-attachments/assets/326cfa3f-3b22-4552-90ec-0848c2acb28e" />
 
 PCF 公式：
 
@@ -511,11 +511,11 @@ PCSS 是 PCF 的进一步扩展。
 
 这种效果称为 Contact Hardening（接触硬化）。
 
-![[局部截取_20261125_000326.png]]
+<img width="1226" height="912" alt="image" src="https://github.com/user-attachments/assets/2e71524e-453d-46db-9183-446668d0b277" />
 
 PCF：近似固定软化程度
 
-![[Pasted image 20261125000357.png]]
+<img width="574" height="446" alt="image" src="https://github.com/user-attachments/assets/f57fadd3-37fe-4571-9579-111be28aca4f" />
 
 PCSS：随遮挡距离变化的半影
 
@@ -998,7 +998,7 @@ VSM、EVSM 的核心价值是**让大范围阴影过滤更容易进行**，并�
 
 可以将阴影划分为两部分：
 
-![[局部截取_20261125_000631.png]]
+<img width="744" height="210" alt="image" src="https://github.com/user-attachments/assets/05d7b3a0-0c71-4580-94dd-6d6d8cbcda64" />
 
 传统阴影缓存可以围绕静态几何和动态几何拆分来设计；UE5 Virtual Shadow Maps 则可以进一步对分页结果进行缓存。
 
@@ -1139,7 +1139,7 @@ $$
 
 例如：
 
-![[局部截取_20261125_000720.png]]
+<img width="770" height="759" alt="image" src="https://github.com/user-attachments/assets/9dc236b5-1142-41ac-90e1-41daf888f753" />
 
 如果只有 1000 个 128×128 页面需要物理存储，那么其原始深度数据量按 4 字节/纹素估算约为：
 
