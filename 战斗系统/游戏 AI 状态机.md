@@ -46,7 +46,7 @@ FSM（Finite State Machine，有限状态机）是一种将复杂行为拆分为
 
 怪物根据玩家的位置、自身血量、技能冷却、受击情况等信息决定是否进行状态切换。
 
-![[局部截取_20261126_005746.png]]
+<img width="743" height="748" alt="image" src="https://github.com/user-attachments/assets/e6d7d724-ac6b-4a22-8114-a1a5b05819d6" />
 
 状态机主要负责解决两个问题：
 
@@ -88,7 +88,7 @@ FSM（Finite State Machine，有限状态机）是一种将复杂行为拆分为
 |OnUpdate / Tick|更新状态|状态持续运行期间|
 |OnExit|退出状态|切换到其他状态时|
 
-![[局部截取_20261126_005815.png]]
+<img width="742" height="585" alt="image" src="https://github.com/user-attachments/assets/398d6f91-ad5c-44f2-982c-c5d86ccf7da8" />
 
 以 Chase（追击状态）为例：
 
@@ -271,7 +271,7 @@ void ChangeState(EAIState NewState)
 
 例如，将攻击、巡逻、追击分别封装为 AttackState、PatrolState、ChaseState。
 
-![[局部截取_20261126_005830.png]]
+<img width="740" height="575" alt="image" src="https://github.com/user-attachments/assets/fe0282db-ca8c-4e9f-9f4f-24a69016c71d" />
 
 ### **第一步：定义状态基类**
 
@@ -537,7 +537,7 @@ void FStateMachine::Tick(float DeltaTime)
 
 实际运行效果可以通过下面的例子理解。
 
-![[局部截取_20261126_005904.png]]
+<img width="742" height="626" alt="image" src="https://github.com/user-attachments/assets/a895cfd7-bcc9-4110-a1f7-f4cc5105bb29" />
 
 这里即使有多个转换条件同时成立，也只选择优先级最高的合法转换。
 
@@ -644,7 +644,7 @@ $$
 
 条有向转换关系。
 
-![[局部截取_20261126_010009.png]]
+<img width="742" height="544" alt="image" src="https://github.com/user-attachments/assets/7ab6966e-cf27-4835-9a85-7adeb70cdf1b" />
 
 ## **6.2 如何解决状态爆炸？**
 
@@ -673,7 +673,7 @@ $$
 
 例如 Boss AI：
 
-![[局部截取_20261126_010036.png]]
+<img width="749" height="760" alt="image" src="https://github.com/user-attachments/assets/54c10521-edae-40e7-b9ea-400313705205" />
 
 当 Boss 正在攻击时，其活动状态路径可以表示为：
 
@@ -729,7 +729,7 @@ Alive → NonCombat → Patrol
 
 然后从当前叶子状态向上退出，再从公共祖先向下进入目标状态。
 
-![[局部截取_20261126_010051.png]]
+<img width="745" height="419" alt="image" src="https://github.com/user-attachments/assets/f4400c67-2a04-445a-874f-afa5d02a3ad5" />
 
 父状态不需要重新进入或退出，避免重复初始化共享逻辑。
 
@@ -780,7 +780,8 @@ HFSM 是对普通 FSM 的扩展，而不是万能的解决方案。
 
 不需要专门创建一个 Run_Attack_Sword_Poison 状态。
 
-![[局部截取_20261126_010108.png]]
+<img width="737" height="448" alt="image" src="https://github.com/user-attachments/assets/14d89687-082a-415e-8707-76afef4da3c3" />
+
 ## **8.2 并行状态机如何处理冲突？**
 
 这是并行状态机最重要的问题。
@@ -859,7 +860,7 @@ void AMyCharacter::Tick(float DeltaTime)
 
 例如 NPC 正在巡逻，临时进入调查状态。
 
-![[局部截取_20261126_010132.png]]
+<img width="742" height="195" alt="image" src="https://github.com/user-attachments/assets/6ff819f4-ea34-45ef-bc22-f515e4524773" />
 
 栈式状态机一般还会增加两个生命周期函数：
 
@@ -881,7 +882,7 @@ void AMyCharacter::Tick(float DeltaTime)
 
 ## **10.1 整体架构**
 
-![[局部截取_20261126_010153.png]]
+<img width="744" height="838" alt="image" src="https://github.com/user-attachments/assets/4af8bb13-04aa-48bf-adb3-a180948c21d2" />
 
 ## **10.2 攻击状态的细分**
 
@@ -893,7 +894,7 @@ void AMyCharacter::Tick(float DeltaTime)
 |Active|攻击有效期|开启攻击检测、计算命中|
 |Recovery|攻击后摇|关闭检测、等待动作恢复|
 
-![[局部截取_20261126_010224.png]]
+<img width="739" height="347" alt="image" src="https://github.com/user-attachments/assets/08bacf26-01dc-49ec-9281-3fbeee5db8a8" />
 
 这些阶段可以实现为 Attack 父状态的子状态，也可以使用技能内部阶段变量、Ability Task（能力任务）、AnimNotify（动画通知）等实现。
 
@@ -958,7 +959,7 @@ bool CanInterrupt(EAIState TargetState)
 
 通常会通过输入缓冲解决。
 
-![[局部截取_20261126_010245.png]]
+<img width="745" height="311" alt="image" src="https://github.com/user-attachments/assets/12340a2b-a1bc-4cdd-ad43-24297fd8ced1" />
 
 输入缓冲负责记录输入类型和时间，状态机负责在合法的连招窗口或者取消窗口中消费输入。
 
@@ -970,7 +971,7 @@ bool CanInterrupt(EAIState TargetState)
 
 UE 动画蓝图中的状态机主要用于控制动画姿势及其混合关系。
 
-![[局部截取_20261126_010311.png]]
+<img width="935" height="494" alt="image" src="https://github.com/user-attachments/assets/a3ff9ae1-ce51-48da-a251-e26590077020" />
 
 常见动画状态：
 
@@ -1000,8 +1001,6 @@ Land（落地）
 |Max Transitions Per Frame|每帧最大转换次数|
 
 动画状态机允许在不同状态之间进行动画混合。
-
-Epic Developer Community+1
 
 ### **动画状态机与逻辑状态机的区别**
 
@@ -1051,7 +1050,7 @@ Epic Developer Community
 
 StateTree 是 UE 提供的一种通用分层状态逻辑框架，将行为树的状态选择能力与状态机的状态转换机制相结合。
 
-![[局部截取_20261126_010335.png]]
+<img width="1121" height="669" alt="image" src="https://github.com/user-attachments/assets/3baa491d-8211-4d40-bc55-1493ce293d5f" />
 
 主要组件：
 
@@ -1073,7 +1072,7 @@ StateTree 选中叶子状态时，其父状态路径也可以保持激活，相�
 
 这是游戏 AI 开发中非常经典的对比面试题。
 
-![[局部截取_20261126_010357.png]]
+<img width="739" height="307" alt="image" src="https://github.com/user-attachments/assets/cdd057f9-ab82-4d85-ba24-c55a2462c897" />
 
 |对比项|FSM|Behavior Tree|Utility AI|
 |---|---|---|---|
@@ -1202,7 +1201,7 @@ HFSM 切换时还需要管理父子状态的进入、退出顺序。
 
 可以设置两个不同的阈值。
 
-![[局部截取_20261126_010458.png]]
+<img width="742" height="479" alt="image" src="https://github.com/user-attachments/assets/a6097f80-e542-41c3-8894-6a6f3cc71824" />
 
 这样即使玩家在 3 米附近频繁移动，也不会导致状态不断抖动。
 
