@@ -58,8 +58,13 @@ public:
     void Attack();
 };
 ```
-
-![[局部截取_20261022_030057.png]]
+C++ 头文件
+UCLASS / UPROPERTY / UFUNCTION
+UHT 扫描解析
+生成反射辅助代码
+*.generated.h / *.gen.cpp 等
+运行时反射数据
+UClass / FProperty / UFunction
 
 反射系统支撑的主要功能有：蓝图调用、属性编辑、序列化、网络复制、GC 引用遍历等。
 
@@ -164,7 +169,7 @@ UE 的 GC 主要管理 UObject 体系中的对象。
 
 简化为：
 
-![[局部截取_20261022_030138.png]]
+<img width="1148" height="686" alt="image" src="https://github.com/user-attachments/assets/5230fd87-b667-48fd-8b53-a1d66373b72b" />
 
 例如：
 
