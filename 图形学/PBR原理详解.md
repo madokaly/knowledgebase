@@ -35,7 +35,7 @@ PBR 主要解决以下几个问题：
 
 当光线照射到物体表面时，通常会发生以下几种情况。
 
-![[局部截取_20261126_230455.png]]
+<img width="742" height="524" alt="image" src="https://github.com/user-attachments/assets/512aa75c-f863-4d54-80a2-d6b682ec26ee" />
 
 ## **2.1 Specular Reflection（镜面反射）**
 
@@ -103,7 +103,7 @@ $$
 
 其中 Metallic 表示金属度。
 
-![[局部截取_20261126_230651.png]]
+<img width="739" height="385" alt="image" src="https://github.com/user-attachments/assets/eb354e97-add1-47bd-8c2b-b191b0adfcff" />
 
 当 Metallic = 0 时：
 
@@ -135,7 +135,7 @@ PBR 将宏观物体表面近似为无数个微小的镜面，这些镜面称为�
 
 每一个微表面都有自己的法线方向，并遵循镜面反射规律。
 
-![[局部截取_20261126_230722.png]]
+<img width="739" height="580" alt="image" src="https://github.com/user-attachments/assets/828f1d76-c98c-455b-8fe1-54759cea5a46" />
 
 ## **4.2 粗糙度如何影响光照？**
 
@@ -150,7 +150,7 @@ Roughness（粗糙度）描述的就是微表面法线分布的离散程度。
 |环境倒影|清晰|模糊|
 |典型材质|镜子、抛光金属|石头、磨砂金属|
 
-![[局部截取_20261126_230744.png]]
+<img width="787" height="271" alt="image" src="https://github.com/user-attachments/assets/6d76ae19-fd17-4bc6-9b38-312fa396e564" />
 
 注意一个非常常见的误区：
 
@@ -186,7 +186,7 @@ BRDF 不是最终的像素颜色，也不是简单的反射百分比，而是描
 
 ## **5.2 PBR 中的四个核心向量**
 
-![[局部截取_20261126_230848.png]]
+<img width="741" height="546" alt="image" src="https://github.com/user-attachments/assets/8bcbaf05-b56d-4c1f-a03a-c3c0771b8080" />
 
 |向量|中文名称|作用|
 |---|---|---|
@@ -238,7 +238,7 @@ $$
 BRDF=DiffuseBRDF+SpecularBRDF
 $$
 
-![[局部截取_20261126_231026.png]]
+<img width="746" height="214" alt="image" src="https://github.com/user-attachments/assets/68679c81-ead2-4111-b319-b17e919f99b4" />
 
 其中 D、F、G 三个函数是 PBR 最重要的知识点，也是面试中最经常被问到的部分。
 
@@ -258,7 +258,7 @@ $$
 
 这就是 D 函数的作用。
 
-![[局部截取_20261126_231053.png]]
+<img width="740" height="394" alt="image" src="https://github.com/user-attachments/assets/8ade96bb-38dd-44e2-a43e-a0472de64e56" />
 
 ## **6.2 GGX 法线分布函数**
 
@@ -282,7 +282,7 @@ $$
 
 ## **6.3 GGX 函数与粗糙度的关系**
 
-![[局部截取_20261126_231150.png]]
+<img width="739" height="684" alt="image" src="https://github.com/user-attachments/assets/ac0606a9-72b3-4058-bed0-58cb18605d38" />
 
 当粗糙度很低时，微表面法线高度集中在 N 附近，D 函数的峰值很高，但是偏离 N 后会快速下降，最终形成狭窄、明亮的高光。
 
@@ -320,7 +320,7 @@ float DistributionGGX(float NoH, float Roughness)
 
 这是因为当观察方向接近掠射角时，表面镜面反射率通常会显著增加。
 
-![[局部截取_20261126_231214.png]]
+<img width="741" height="393" alt="image" src="https://github.com/user-attachments/assets/c5f248fb-242e-4c50-be11-c2caa40b5885" />
 
 ## **7.2 Fresnel-Schlick 近似公式**
 
@@ -348,7 +348,7 @@ $$
 以普通非金属材质 F_0=0.04为例：
 $$
 
-![[局部截取_20261126_231321.png]]
+<img width="742" height="461" alt="image" src="https://github.com/user-attachments/assets/a5d72528-b295-4f49-9165-8c938cd4b956" />
 
 可以看出：
 
@@ -406,7 +406,7 @@ float3 FresnelSchlick(float VoH, float3 F0)
 - **Shadowing（阴影遮挡）：** 入射光还没有照射到目标微表面，就已经被其他微表面挡住。
 - **Masking（观察遮挡）：** 光线成功照射目标微表面，但是反射光在到达摄像机之前，被其他微表面挡住。
 
-![[局部截取_20261126_231404.png]]
+<img width="745" height="379" alt="image" src="https://github.com/user-attachments/assets/c42e755b-48b3-43c2-bdda-a7a7e0fdfdcb" />
 
 因此 G 函数就是计算微表面同时对光源和观察者可见的程度。
 
@@ -539,7 +539,7 @@ $$
 
 ## **10.1 为什么要对半球进行积分？**
 
-![[局部截取_20261126_232006.png]]
+<img width="741" height="480" alt="image" src="https://github.com/user-attachments/assets/6772128a-5ccc-4d28-a79f-3e682426f41b" />
 
 因为现实中物体不只是受到一个光源照射。
 
@@ -582,37 +582,37 @@ $$
 
 UE5 中经典 Default Lit（默认光照）材质主要包含以下参数。
 
-![[Pasted image 20261126232118.png]]
+<img width="1200" height="1200" alt="image" src="https://github.com/user-attachments/assets/4b5e52c0-1987-4529-8d11-36dfa5fa0121" />
 
 **Base Color（基础颜色）**
 
 非金属材质的漫反射颜色；纯金属材质的基础镜面反射颜色。不应该直接烘焙高光、场景阴影等光照信息。
 
-![[Pasted image 20261126232134.png]]
+<img width="900" height="900" alt="image" src="https://github.com/user-attachments/assets/d3964a9c-a136-461b-a700-5dab8b205ef5" />
 
 **Metallic（金属度）**
 
 控制材质属于金属还是非金属。0 为非金属，1 为纯金属。
 
-![[Pasted image 20261126232143.png]]
+<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/7df97962-659f-47a7-9a51-f9c648d01906" />
 
 **Roughness（粗糙度）**
 
 控制微表面法线分布，从而影响高光宽度和环境反射的清晰程度。
 
-![[Pasted image 20261126232150.png]]
+<img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/6f8082eb-12d1-46d3-b5a5-9e5cc5a42bac" />
 
 **Normal Map（法线贴图）**
 
 修改每个着色点参与光照计算的法线方向，在不增加实际模型几何面数的情况下表现表面细节。
 
-![[Pasted image 20261126232158.png]]
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/a64fc9a5-acce-4c5c-b64d-74b662ba5dc8" />
 
 **AO（Ambient Occlusion，环境光遮蔽）**
 
 近似描述凹槽、缝隙等位置接收间接光照的困难程度，不应简单地将所有直接光照一起变暗。
 
-![[Pasted image 20261126232205.png]]
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/f65454f0-f954-41f5-bd6a-54ed12c62585" />
 
 **Emissive（自发光）**
 
@@ -664,13 +664,13 @@ DiffuseColor = float3(0, 0, 0);
 
 例如黄金、铜、铁、铝等。
 
-![[Pasted image 20261126232240.png]]
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/47bc10ba-41a3-4586-a34e-5f4ae57a0c9a" />
 
 **非金属材质**
 
 红色漫反射，接近白色的高光
 
-![[Pasted image 20261126232247.png]]
+<img width="750" height="527" alt="image" src="https://github.com/user-attachments/assets/725c1f2f-876b-43df-b3ef-12c5b022873a" />
 
 **金属材质**
 
@@ -687,7 +687,7 @@ Metallic 与 Roughness 是两个不同的属性。
 
 因此，金属也可以非常粗糙，非金属也可以非常光滑。
 
-![[Pasted image 20261126232300.png]]
+<img width="1024" height="576" alt="image" src="https://github.com/user-attachments/assets/6388cff6-6398-407d-8757-fc8f37a8551d" />
 
 |材质|Metallic 参考值|Roughness 参考值|
 |---|---|---|
@@ -750,9 +750,9 @@ IBL 的核心思想是：
 
 **将整个环境看成一个能够从不同方向提供光照的大型光源。**
 
-![[Pasted image 20261126232344.png]]
+<img width="2448" height="1224" alt="image" src="https://github.com/user-attachments/assets/d37b7658-006a-4bdd-84e6-8c9a092c8758" />
 
-![[Pasted image 20261126232355.png]]
+<img width="2500" height="1668" alt="image" src="https://github.com/user-attachments/assets/9c1462ba-140f-4cae-90d3-62cda4e1be7c" />
 
 IBL 通常将环境光照划分为：
 
@@ -803,7 +803,7 @@ float3 DiffuseIBL = DiffuseColor * Irradiance / PI;
 
 将复杂的环境镜面反射积分近似拆分为两个部分。
 
-![[局部截取_20261126_232452.png]]
+<img width="738" height="757" alt="image" src="https://github.com/user-attachments/assets/1786f47a-8c0d-4b58-989e-59e3b95568a1" />
 
 **Specular IBL**
 
@@ -1018,7 +1018,7 @@ float3 CalculatePBRLighting(
 
 以传统 Default Lit 材质与 Deferred Rendering（延迟渲染）为例。
 
-![[局部截取_20261126_232528.png]]
+<img width="745" height="828" alt="image" src="https://github.com/user-attachments/assets/33df7f15-ff59-48c5-bf1e-a488c2834167" />
 
 ## **14.1 UE 源码相关文件**
 
@@ -1125,7 +1125,7 @@ PBR 的最大优势不仅仅是画面更加真实，而是**材质参数在不�
 
 ORM 是常见的纹理通道打包方案：
 
-![[局部截取_20261126_232614.png]]
+<img width="746" height="117" alt="image" src="https://github.com/user-attachments/assets/2acbd509-5f11-4cb6-b1e2-d6b5c8f0e804" />
 
 ```
 // 一次纹理采样获取三个材质参数
@@ -1273,7 +1273,7 @@ PBR 的目标是在可接受的计算开销下，获得符合物理规律且视�
 
 # **十八、PBR 核心知识总结**
 
-![[局部截取_20261126_232659.png]]
+<img width="736" height="695" alt="image" src="https://github.com/user-attachments/assets/9b82ca52-fe50-4a33-bad9-343ad86b8473" />
 
 对于 UE 游戏客户端开发面试，建议按照以下优先级掌握：
 
