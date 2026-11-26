@@ -10,13 +10,13 @@ NPR（Non-Photorealistic Rendering，非真实感渲染）是一种不以还原�
 
 # **一、NPR 与 PBR 的区别**
 
-![[Pasted image 20261126233035.png]]
+<img width="459" height="385" alt="image" src="https://github.com/user-attachments/assets/7c9e1030-7011-4278-b272-7e479f242224" />
 
 **PBR（基于物理的渲染）**
 
 连续的光照过渡、真实的材质与反射
 
-![[Pasted image 20261126233047.png]]
+<img width="2048" height="1152" alt="image" src="https://github.com/user-attachments/assets/6dc90206-7a6d-44a1-ba24-578d1283b8a4" />
 
 **NPR（卡通风格渲染）**
 
@@ -69,7 +69,7 @@ NPR（Non-Photorealistic Rendering，非真实感渲染）是一种不以还原�
 
 整体渲染流程可以概括为：
 
-![[局部截取_20261126_233111.png]]
+<img width="739" height="696" alt="image" src="https://github.com/user-attachments/assets/d2260021-bcbd-4951-8897-e2d840854ccf" />
 
 这是一个概念流程，不同渲染管线的实际 Pass 顺序可能有所不同。
 
@@ -115,7 +115,7 @@ $$
 
 所以法线与光源方向越接近，表面就越亮。
 
-![[局部截取_20261126_233312.png]]
+<img width="721" height="372" alt="image" src="https://github.com/user-attachments/assets/08f7bbc3-8820-4ffa-92a5-879b6a37b62a" />
 
 Lambert 的问题在于，光照强度会连续变化：
 
@@ -165,7 +165,7 @@ FinalColor *= BaseColor;
 
 下面可以直接调整光照阈值，观察明暗分界线如何变化。
 
-![[局部截取_20261126_233437.png]]
+<img width="740" height="920" alt="image" src="https://github.com/user-attachments/assets/519c2036-4f7d-489e-9eba-3c8a0b2b8ee7" />
 
 可以看到：
 - Threshold 越大，暗部区域越大。
@@ -176,7 +176,7 @@ FinalColor *= BaseColor;
 
 二分色只有亮部和暗部。如果想让角色具备更强的立体感，可以增加第三层甚至第四层颜色。
 
-![[局部截取_20261126_233457.png]]
+<img width="762" height="326" alt="image" src="https://github.com/user-attachments/assets/eaf7aa0d-c4b2-4d15-a140-c5fcc15906e7" />
 
 ```
 float NdotL = dot(N, L);
@@ -293,7 +293,7 @@ Ramp 的本质是 **LUT（Look-Up Table，查找表）**。
 
 它并不是直接根据模型 UV 采样，而是将光照计算结果作为贴图采样坐标。
 
-![[局部截取_20261126_233540.png]]
+<img width="742" height="439" alt="image" src="https://github.com/user-attachments/assets/86c96922-ec19-4b29-a981-5cc2fadb7876" />
 
 ## **4.2 实现原理**
 
@@ -321,13 +321,13 @@ float3 RampColor = RampTexture.Sample(
 float3 Diffuse = BaseColor * RampColor;
 ```
 
-![[局部截取_20261126_233603.png]]
+<img width="739" height="406" alt="image" src="https://github.com/user-attachments/assets/145dec59-cf53-459b-a03c-66739a5c2b6f" />
 
 ## **4.3 多行 Ramp 贴图**
 
 实际项目中，可以在一张 Ramp 贴图中存储多种材质的光照风格。
 
-![[局部截取_20261126_233622.png]]
+<img width="711" height="388" alt="image" src="https://github.com/user-attachments/assets/9d5c8626-bc01-41ea-a21d-8a0df9491415" />
 
 通过材质 ID 或 Mask 贴图来决定采样哪一行。
 
@@ -370,12 +370,12 @@ Ramp Shading 最大的优势是：**将光照风格设计从程序逻辑转移�
 
 如果直接使用 NdotL 进行二分色光照，就可能产生大量零碎、不规则的阴影。
 
-![[Pasted image 20261126233643.png]]
+<img width="1029" height="606" alt="image" src="https://github.com/user-attachments/assets/4c690884-edc4-4006-9ea5-62f05aec55a7" />
 
 **普通法线光照**
 容易出现复杂、破碎的面部阴影
 
-![[Pasted image 20261126233653.png]]
+<img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/6eefd336-8486-4f36-bf08-bb9003ab7066" />
 
 **SDF 面部光照**
 明暗形状更加稳定且可控
@@ -405,8 +405,7 @@ $$
 
 ## **5.3 SDF 面部阴影贴图如何制作？**
 
-![[Pasted image 20261126233740.png]]
-
+<img width="1166" height="1824" alt="image" src="https://github.com/user-attachments/assets/d2939e74-9d21-4e0a-9c95-da6c84c13a8b" />
 
 一种常见制作流程：
 
@@ -430,7 +429,7 @@ Shader 根据光源方向与灰度贴图进行比较，就可以还原不同角�
 
 UE 默认坐标系通常是 X 轴向前、Y 轴向右、Z 轴向上，但头部骨骼的局部轴需要根据具体模型确认。
 
-![[局部截取_20261126_233814.png]]
+<img width="747" height="708" alt="image" src="https://github.com/user-attachments/assets/3bdfa6da-6ad1-4c9f-9623-fee4f6593fd2" />
 
 通常只考虑光照方向在头部水平面上的投影，避免光源高度变化导致面部阴影形状失控。
 
@@ -530,7 +529,7 @@ SDF 主要控制面部自身的风格化明暗分布；Shadow Map 则负责头�
 
 ## **6.1 Inverted Hull（反向外壳描边）**
 
-![[局部截取_20261126_233843.png]]
+<img width="743" height="371" alt="image" src="https://github.com/user-attachments/assets/6b70f3ec-e116-4b50-a7cd-0bd05d5af947" />
 
 基本原理：
 
@@ -586,7 +585,7 @@ OutlineColor   // 描边颜色
 
 沿各自法线扩张后，就可能出现描边裂缝。
 
-![[局部截取_20261126_233909.png]]
+<img width="682" height="309" alt="image" src="https://github.com/user-attachments/assets/77eca661-6e5b-462d-882b-fe79e7c446fe" />
 
 解决方案：为描边单独生成 Smooth Normal（平滑法线），将其存储在额外 UV、顶点颜色或其他顶点属性中。
 
@@ -643,11 +642,11 @@ float Width = OutlineWidth * VertexColor.r;
 - Custom Stencil（自定义模板值）。
 - Object ID（物体标识）。
 
-![[Pasted image 20261126233938.png]]
+<img width="600" height="465" alt="image" src="https://github.com/user-attachments/assets/f8f3a740-f47a-406a-9361-42826f074cb7" />
 
 Depth 深度缓冲
 
-![[Pasted image 20261126233944.png]]
+<img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/27f3aa4b-e330-4777-ab10-7054c5049e22" />
 
 Normal 法线缓冲
 
@@ -746,7 +745,7 @@ $$
 
 如果模型表面的法线变化十分复杂，那么卡通阴影的形状也会非常复杂。
 
-![[局部截取_20261126_234030.png]]
+<img width="696" height="387" alt="image" src="https://github.com/user-attachments/assets/d4f7b23d-21b5-4276-a2ad-78c49a32e352" />
 
 因此，NPR 可以主动修改模型法线，让光照计算产生更符合美术要求的阴影形状。
 
@@ -819,7 +818,9 @@ $$
 - n：高光指数，越大高光越集中。
 
 传统高光是连续衰减的，而动漫中的高光可能是明确的白色块、条形或者星形。
-![[局部截取_20261126_234153.png]]
+
+<img width="776" height="293" alt="image" src="https://github.com/user-attachments/assets/3746a8ad-cc76-4c32-8555-5c2580895530" />
+
 ## **8.2 卡通高光实现**
 
 和漫反射一样，可以对高光进行离散化处理。
@@ -856,7 +857,7 @@ float3 SpecularColor =
 
 动漫角色头发的高光通常不是一个圆形光斑，而是沿着发丝分布形成带状高光。
 
-![[Pasted image 20261126234248.png]]
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/111472fe-27c5-42d8-84e3-5dab04bf0930" />
 
 这是因为头发由大量具有方向性的发丝组成，不同方向上的光照反射表现并不相同。
 
@@ -919,7 +920,7 @@ $$
 
 当表面接近垂直于观察方向时，N·V 接近 0，边缘光较强。
 
-![[局部截取_20261126_234324.png]]
+<img width="741" height="535" alt="image" src="https://github.com/user-attachments/assets/f93f9ec1-ee05-4a37-8d1c-35687d6aeef8" />
 
 ```
 float NdotV = saturate(dot(N, V));
@@ -948,7 +949,7 @@ Fresnel 边缘光可能在模型内部的曲面产生多余的亮线，并且光
 
 因此还可以使用深度缓冲实现屏幕空间边缘光。
 
-![[局部截取_20261126_234346.png]]
+<img width="718" height="295" alt="image" src="https://github.com/user-attachments/assets/ff67c203-72d7-49a5-a432-9913699d6082" />
 
 实现步骤：
 
@@ -1034,7 +1035,7 @@ Cel Shading 和 Shadow Map 解决的是两个不同的问题。
 
 例如，角色面部正对光源，NdotL 很大，但如果头发挡住了光线，那么面部依然应该产生阴影。
 
-![[局部截取_20261126_234415.png]]
+<img width="742" height="366" alt="image" src="https://github.com/user-attachments/assets/e0a490da-90ba-4e47-8a16-0106a7b04060" />
 
 可以使用 Shadow Map 得到 Shadow Attenuation（阴影衰减值）。
 
@@ -1094,7 +1095,8 @@ float3 Color = lerp(
 在大型二次元动作游戏中，通常不需要将整个游戏都使用纯 NPR 方式渲染。
 
 一个角色的不同材质可以采用不同的光照算法。
-![[Pasted image 20261126234440.png]]
+
+<img width="2184" height="3596" alt="image" src="https://github.com/user-attachments/assets/b7baf921-1ddb-42fb-bb65-c0ba96b0207b" />
 
 **面部**
 
@@ -1172,8 +1174,7 @@ float3 FinalColor =
 
 使用 UE 的后处理材质，对已经渲染完成的画面进行风格化处理。
 
-![[局部截取_20261126_234518.png]]
-
+<img width="743" height="285" alt="image" src="https://github.com/user-attachments/assets/2b7a4787-2fe9-4388-b954-7a11464401d9" />
 
 UE 中常用的材质节点和功能：
 
@@ -1197,7 +1198,7 @@ UE 官方支持使用后处理材质以及 Custom Depth、Custom Stencil 实现�
 
 将材质的 Shading Model 设置为 Unlit（无光照），然后在材质中自行计算 NPR 光照，并输出到 Emissive Color。
 
-![[局部截取_20261126_234544.png]]
+<img width="744" height="375" alt="image" src="https://github.com/user-attachments/assets/0e721281-23c9-47e6-9b55-71e0e07a7355" />
 
 光源方向可以通过 MPC（Material Parameter Collection，材质参数集合）传入。
 
@@ -1249,7 +1250,7 @@ if (MPCInstance)
 
 以传统 UE 延迟渲染管线为例：
 
-![[局部截取_20261126_234607.png]]
+<img width="743" height="383" alt="image" src="https://github.com/user-attachments/assets/434901ca-42f2-40fb-a694-39da920b1c01" />
 
 传统非 Substrate 渲染路径下，新增一个 Toon Shading Model 通常涉及以下模块：
 
@@ -1330,7 +1331,7 @@ PBR 通常可以将多个光源产生的贡献进行累加。
 
 一种常见的项目设计是区分 Key Light（主光源）和 Fill Light（辅助光源）。
 
-![[局部截取_20261126_234633.png]]
+<img width="741" height="231" alt="image" src="https://github.com/user-attachments/assets/0a0eb479-4cef-45fb-bfe4-c9efbe264f12" />
 
 对于角色战斗、日夜变化、室内外切换，还需要管理主光源的选择、光照权重及过渡过程，避免光照方向瞬间切换造成脸部阴影跳变。
 
@@ -1508,7 +1509,7 @@ $$
 
 # **十六、NPR 渲染核心知识总结**
 
-![[局部截取_20261126_234743.png]]
+<img width="739" height="442" alt="image" src="https://github.com/user-attachments/assets/4f97c36a-8388-4da6-b7fa-2f04f97de552" />
 
 对于类似《鸣潮》的 UE 动作游戏客户端岗位，建议优先掌握以下知识：
 
